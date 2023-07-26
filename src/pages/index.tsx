@@ -82,6 +82,11 @@ function SingleInstrument({ instrument }: SingleInstrumentProps) {
 
 function InstrumentTable() {
   const { data: instrumentData, isLoading } = api.instrument.getAll.useQuery();
+  const { data: session } = useSession();
+
+  if (!session) {
+    return <h1>Please sign in to view instruments</h1>;
+  }
 
   if (isLoading) {
     return <h1>Loading...</h1>;
