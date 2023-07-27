@@ -1,8 +1,8 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import { api } from "~/utils/api";
-import { type Instrument } from "@prisma/client";
+// import Head from "next/head";
+// import Link from "next/link";
+import { PageHeader } from "~/components/PageHeader";
+import { InstrumentTable } from "~/components/InstrumentTable";
 
 export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
@@ -21,18 +21,6 @@ export default function Home() {
       </div>
       <ExampleSignInButton />
     </main>
-  );
-}
-
-function PageHeader() {
-  return (
-    <header className="flex flex-col items-center">
-      <h1 className="text-4xl text-slate-200">Sub Tracker</h1>
-      <p className="text-xl text-slate-200">
-        A simple app to manage substitute musician information
-      </p>
-      <hr className="my-5 w-full max-w-xs" />
-    </header>
   );
 }
 
@@ -66,41 +54,5 @@ function ExampleSignInButton() {
         Sign in
       </button>
     </>
-  );
-}
-
-// This is typing the props for the component SingleInstrument
-// Here is where we define the props that the component will receive
-interface SingleInstrumentProps {
-  instrument: Instrument;
-}
-
-// We want to type the object, and cannot type the individual props here
-function SingleInstrument({ instrument }: SingleInstrumentProps) {
-  return <li className="mx-5">{instrument.name}</li>;
-}
-
-function InstrumentTable() {
-  const { data: instrumentData, isLoading } = api.instrument.getAll.useQuery();
-  const { data: session } = useSession();
-
-  if (!session) {
-    return <h1>Please sign in to view instruments</h1>;
-  }
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!instrumentData) {
-    return <h1>Error loading instruments</h1>;
-  }
-
-  return (
-    <ul className="mx-auto flex w-full flex-col items-start border-x md:max-w-2xl">
-      {instrumentData.map((instrument) => (
-        <SingleInstrument instrument={instrument} key={instrument.id} />
-      ))}
-    </ul>
   );
 }
