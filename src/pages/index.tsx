@@ -19,12 +19,12 @@ export default function Home() {
         {/*   </p> */}
         {/* </div> */}
       </div>
-      <ExampleSignInButton />
+      <SignInOrOutButton />
     </main>
   );
 }
 
-function ExampleSignInButton() {
+function SignInOrOutButton() {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
