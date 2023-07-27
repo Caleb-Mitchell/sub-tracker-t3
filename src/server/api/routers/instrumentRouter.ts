@@ -6,15 +6,13 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 
-const INSTRUMENTS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 5;
 
 export const instrumentRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
       const instruments = await ctx.prisma.instrument.findMany({
         orderBy: { name: "asc" },
-        // skip: 0,
-        // take: 5,
       });
       return instruments;
     } catch (e) {
@@ -23,42 +21,42 @@ export const instrumentRouter = createTRPCRouter({
   }),
 
   getPage: protectedProcedure
-  .input(
-    z.object({
-      pageNumber: z.number(),
-    })
-  )
-  .query(async ({ input, ctx }) => {
-    try {
-      const instruments = await ctx.prisma.instrument.findMany({
-        orderBy: { name: "asc" },
-        skip: (input.pageNumber - 1) * INSTRUMENTS_PER_PAGE,   
-        take: INSTRUMENTS_PER_PAGE,
+    .input(
+      z.object({
+        pageNumber: z.number(),
       })
-      if (!instruments) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "No instruments found",
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const instruments = await ctx.prisma.instrument.findMany({
+          orderBy: { name: "asc" },
+          skip: (input.pageNumber - 1) * ITEMS_PER_PAGE,
+          take: ITEMS_PER_PAGE,
         });
+        if (!instruments) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No instruments found",
+          });
+        }
+        return instruments;
+      } catch (e) {
+        console.error(e);
+        if (e instanceof TRPCError) {
+          throw e;
+        } else {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Unknown error when fetching instruments",
+          });
+        }
       }
-      return instruments
-    } catch (e) {
-      console.error(e);
-      if (e instanceof TRPCError) {
-        throw e;
-      } else {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Unknown error when fetching instruments"
-        })
-      }
-    }
-  }),
+    }),
 
   getLastPageNum: protectedProcedure.query(async ({ ctx }) => {
     try {
       const instruments = await ctx.prisma.instrument.findMany();
-      const lastPageNumber = Math.ceil(instruments.length / INSTRUMENTS_PER_PAGE);
+      const lastPageNumber = Math.ceil(instruments.length / ITEMS_PER_PAGE);
       return lastPageNumber;
     } catch (e) {
       console.error(e);

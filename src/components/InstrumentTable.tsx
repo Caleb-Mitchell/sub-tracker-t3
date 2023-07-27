@@ -12,6 +12,7 @@ interface SingleInstrumentProps {
 interface PaginationProps {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  paginationItem: string;
 }
 
 // We want to type the object, and cannot type the individual props here
@@ -123,8 +124,17 @@ function PageList({
   );
 }
 
-function Pagination({ currentPage, setCurrentPage }: PaginationProps) {
-  const { data: lastPage } = api.instrument.getLastPageNum.useQuery();
+function Pagination({
+  currentPage,
+  setCurrentPage,
+  paginationItem,
+}: PaginationProps) {
+  let lastPage;
+  if (paginationItem === "instrument") {
+    lastPage = api.instrument.getLastPageNum.useQuery().data;
+  } else if (paginationItem === "musician") {
+    lastPage = api.musician.getLastPageNum.useQuery().data;
+  }
   // TODO: set up first and last visible page numbers based on a slice of the total number of pages
 
   if (!lastPage) {
@@ -181,7 +191,11 @@ export function InstrumentTable() {
           <SingleInstrument instrument={instrument} key={instrument.id} />
         ))}
       </ul>
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        paginationItem={"instrument"}
+      />
     </>
   );
 }
