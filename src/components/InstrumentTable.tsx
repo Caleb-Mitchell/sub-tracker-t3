@@ -24,31 +24,25 @@ export function InstrumentTable() {
 
   if (!session) {
     return (
-      <>
-        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
-          <h1 className="my-auto">Please sign in to view instruments</h1>
-        </div>
-      </>
+      <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
+        <h1 className="my-auto">Please sign in to view instruments</h1>
+      </div>
     );
   }
 
   if (isLoading) {
     return (
-      <>
-        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
-          <h1>Loading...</h1>
-        </div>
-      </>
+      <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
+        <h1>Loading...</h1>
+      </div>
     );
   }
 
   if (!instrumentData) {
     return (
-      <>
-        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
-          <h1>Error loading instruments</h1>
-        </div>
-      </>
+      <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
+        <h1>Error loading instruments</h1>
+      </div>
     );
   }
 
