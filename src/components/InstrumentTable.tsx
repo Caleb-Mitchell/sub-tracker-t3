@@ -25,14 +25,9 @@ export function InstrumentTable() {
   if (!session) {
     return (
       <>
-        <ul className="mx-auto flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
-          <h1>Please sign in to view instruments</h1>
-        </ul>
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          paginationItem={"instrument"}
-        />
+        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
+          <h1 className="my-auto">Please sign in to view instruments</h1>
+        </div>
       </>
     );
   }
@@ -40,14 +35,9 @@ export function InstrumentTable() {
   if (isLoading) {
     return (
       <>
-        <ul className="mx-auto flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
+        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
           <h1>Loading...</h1>
-        </ul>
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          paginationItem={"instrument"}
-        />
+        </div>
       </>
     );
   }
@@ -55,14 +45,9 @@ export function InstrumentTable() {
   if (!instrumentData) {
     return (
       <>
-        <ul className="mx-auto flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
+        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
           <h1>Error loading instruments</h1>
-        </ul>
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          paginationItem={"instrument"}
-        />
+        </div>
       </>
     );
   }
