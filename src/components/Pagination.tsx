@@ -33,7 +33,7 @@ function PreviousPageButton({
     return (
       <button
         disabled
-        className="mx-5 text-slate-600"
+        className="mx-2 text-slate-600"
         onClick={() => setCurrentPage(currentPage - 1)}
       >
         Previous
@@ -41,7 +41,7 @@ function PreviousPageButton({
     );
   } else {
     return (
-      <button className="mx-5" onClick={() => setCurrentPage(currentPage - 1)}>
+      <button className="mx-2" onClick={() => setCurrentPage(currentPage - 1)}>
         Previous
       </button>
     );
@@ -57,7 +57,7 @@ function NextPageButton({
     return (
       <button
         disabled
-        className="mx-5 text-slate-600"
+        className="mx-2 text-slate-600"
         onClick={() => setCurrentPage(currentPage + 1)}
       >
         Next
@@ -65,7 +65,7 @@ function NextPageButton({
     );
   } else {
     return (
-      <button className="mx-5" onClick={() => setCurrentPage(currentPage + 1)}>
+      <button className="mx-2" onClick={() => setCurrentPage(currentPage + 1)}>
         Next
       </button>
     );
@@ -87,7 +87,7 @@ function PageList({
         if (page === currentPage) {
           return (
             <button
-              className="mx-5 text-slate-600"
+              className="mx-2 text-slate-600"
               disabled
               key={page}
               onClick={() => setCurrentPage(page)}
@@ -98,7 +98,7 @@ function PageList({
         } else {
           return (
             <button
-              className="mx-5"
+              className="mx-2"
               key={page}
               onClick={() => setCurrentPage(page)}
             >

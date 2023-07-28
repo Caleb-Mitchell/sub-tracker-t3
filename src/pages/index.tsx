@@ -8,7 +8,7 @@ export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   return (
-    <main className="my-8 flex flex-col items-center">
+    <main className="mx-5 my-8 flex flex-col items-center">
       <PageHeader />
       <InstrumentTable />
       <hr className="mx-5 my-12 w-full max-w-xs" />
