@@ -23,8 +23,10 @@ function SingleMusician({ musician }: SingleMusicianProps) {
         <p>{musician.emailAddress}</p>
       </div>
       <div className="mr-16 flex w-full flex-row justify-end gap-2">
-        <EditButton musician={musician} />
-        <DeleteButton musician={musician} />
+        {/* <EditButton musician={musician} /> */}
+        {/* <DeleteButton musician={musician} /> */}
+        <EditButton />
+        <DeleteButton />
       </div>
     </li>
   );
