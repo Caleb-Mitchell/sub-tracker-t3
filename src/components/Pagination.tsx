@@ -1,5 +1,6 @@
 import { type Dispatch, type SetStateAction } from "react";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 interface PaginationProps {
   currentPage: number;
@@ -116,11 +117,15 @@ export function Pagination({
   setCurrentPage,
   paginationItem,
 }: PaginationProps) {
+  const router = useRouter();
+  const instrumentId = router.query.instrumentId as string;
   let lastPage;
   if (paginationItem === "instrument") {
     lastPage = api.instrument.getLastPageNum.useQuery().data;
   } else if (paginationItem === "musician") {
-    lastPage = api.musician.getLastPageNum.useQuery().data;
+    lastPage = api.musician.getLastPageNum.useQuery({
+      instrumentId: instrumentId,
+    }).data;
   }
   // TODO: set up first and last visible page numbers based on a slice of the total number of pages?
 
@@ -130,6 +135,10 @@ export function Pagination({
 
   const firstVisiblePage = 1;
   const lastVisiblePage = lastPage;
+
+  if (lastPage === 1) {
+    return <div></div>;
+  }
 
   return (
     <div className="mt-10 flex flex-row justify-center">

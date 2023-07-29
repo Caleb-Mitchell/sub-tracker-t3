@@ -12,7 +12,11 @@ interface SingleInstrumentProps {
 
 // We want to type the object, and cannot type the individual props here
 function SingleInstrument({ instrument }: SingleInstrumentProps) {
-  return <li className="mx-5 text-lg">{instrument.name}</li>;
+  return (
+    <a href={`/instruments/${instrument.id}`}>
+      <li className="mx-5 text-lg">{instrument.name}</li>
+    </a>
+  );
 }
 
 export function InstrumentTable() {
@@ -58,6 +62,7 @@ export function InstrumentTable() {
         setCurrentPage={setCurrentPage}
         paginationItem={"instrument"}
       />
+      <hr className="mx-5 mb-2.5 mt-12 w-full max-w-xs" />
     </>
   );
 }

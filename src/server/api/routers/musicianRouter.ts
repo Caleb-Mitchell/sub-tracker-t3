@@ -9,59 +9,94 @@ import {
 const ITEMS_PER_PAGE = 5;
 
 export const musicianRouter = createTRPCRouter({
-  // getAll: protectedProcedure.query(async ({ ctx }) => {
-  //   try {
-  //     const instruments = await ctx.prisma.instrument.findMany({
-  //       orderBy: { name: "asc" },
-  //     });
-  //     return instruments;
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }),
-  //
-  // getPage: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       pageNumber: z.number(),
-  //     })
-  //   )
-  //   .query(async ({ input, ctx }) => {
-  //     try {
-  //       const instruments = await ctx.prisma.instrument.findMany({
-  //         orderBy: { name: "asc" },
-  //         skip: (input.pageNumber - 1) * ITEMS_PER_PAGE,
-  //         take: ITEMS_PER_PAGE,
-  //       });
-  //       if (!instruments) {
-  //         throw new TRPCError({
-  //           code: "NOT_FOUND",
-  //           message: "No instruments found",
-  //         });
-  //       }
-  //       return instruments;
-  //     } catch (e) {
-  //       console.error(e);
-  //       if (e instanceof TRPCError) {
-  //         throw e;
-  //       } else {
-  //         throw new TRPCError({
-  //           code: "INTERNAL_SERVER_ERROR",
-  //           message: "Unknown error when fetching instruments",
-  //         });
-  //       }
-  //     }
-  //   }),
+  getAll: protectedProcedure
+    .input(
+      z.object({
+        instrumentId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const musicians = await ctx.prisma.musician.findMany({
+          where: {
+            instruments: {
+              some: {
+                id: input.instrumentId,
+              },
+            },
+          },
+          orderBy: { name: "asc" },
+        });
+        return musicians;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
 
-  getLastPageNum: protectedProcedure.query(async ({ ctx }) => {
-    try {
-      const musicians = await ctx.prisma.musician.findMany();
-      const lastPageNumber = Math.ceil(musicians.length / ITEMS_PER_PAGE);
-      return lastPageNumber;
-    } catch (e) {
-      console.error(e);
-    }
-  }),
+  getPage: protectedProcedure
+    .input(
+      z.object({
+        pageNumber: z.number(),
+        instrumentId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const musicians = await ctx.prisma.musician.findMany({
+          where: {
+            instruments: {
+              some: {
+                id: input.instrumentId,
+              },
+            },
+          },
+          orderBy: { name: "asc" },
+          skip: (input.pageNumber - 1) * ITEMS_PER_PAGE,
+          take: ITEMS_PER_PAGE,
+        });
+        if (!musicians) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No musicians found",
+          });
+        }
+        return musicians;
+      } catch (e) {
+        console.error(e);
+        if (e instanceof TRPCError) {
+          throw e;
+        } else {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Unknown error when fetching musicians",
+          });
+        }
+      }
+    }),
+
+  getLastPageNum: protectedProcedure
+    .input(
+      z.object({
+        instrumentId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const musicians = await ctx.prisma.musician.findMany({
+          where: {
+            instruments: {
+              some: {
+                id: input.instrumentId,
+              },
+            },
+          },
+        });
+        const lastPageNumber = Math.ceil(musicians.length / ITEMS_PER_PAGE);
+        return lastPageNumber;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
 
   // hello: publicProcedure
   //   .input(z.object({ text: z.string() }))
