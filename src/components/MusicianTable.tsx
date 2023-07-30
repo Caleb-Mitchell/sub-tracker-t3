@@ -17,17 +17,20 @@ interface SingleMusicianProps {
 // We want to type the object, and cannot type the individual props here
 function SingleMusician({ musician }: SingleMusicianProps) {
   return (
-    <li className="mx-8 flex w-full flex-row gap-4 text-lg">
-      <div className="flex flex-row gap-4">
-        <p>{musician.name}</p> |<p>{musician.phoneNumber}</p> |
+    <li className="ml-8 flex w-full flex-row gap-4 text-lg">
+      <div className="flex flex-col">
+        <p>{musician.name}</p>
+        <p>{musician.phoneNumber}</p>
         <p>{musician.emailAddress}</p>
       </div>
-      <div className="mr-16 flex w-full flex-row justify-end gap-2">
+      <div className="mr-16 flex w-full flex-row justify-end gap-2 self-center">
         {/* <EditButton musician={musician} /> */}
         {/* <DeleteButton musician={musician} /> */}
         <EditButton />
         <DeleteButton />
       </div>
+
+      {/* if musician is not the first listed, show hr below */}
     </li>
   );
 }
@@ -79,9 +82,14 @@ export function MusicianTable() {
 
   return (
     <>
-      <ul className="mx-auto flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
-        {musicianData.map((musician) => (
-          <SingleMusician musician={musician} key={musician.id} />
+      <ul className="mx-auto flex max-h-96 min-h-min w-full flex-col items-start overflow-x-hidden border-x md:max-w-2xl">
+        {musicianData.map((musician, idx) => (
+          <>
+            <SingleMusician musician={musician} key={musician.id} />
+            {idx !== musicianData.length - 1 && (
+              <hr className="my-5 ml-4 w-full max-w-xs" />
+            )}
+          </>
         ))}
       </ul>
       <Pagination
@@ -89,7 +97,7 @@ export function MusicianTable() {
         setCurrentPage={setCurrentPage}
         paginationItem={"musician"}
       />
-      <hr className="mx-5 mb-2.5 mt-12 w-full max-w-xs" />
+      <hr className="mb-2.5 mt-12 w-full max-w-xs" />
       <BackButton />
     </>
   );
