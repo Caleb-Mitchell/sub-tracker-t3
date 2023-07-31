@@ -13,6 +13,7 @@ export function CreateInstrumentButton({
     onSuccess: () => {
       console.log("Instrument created");
       void router.push("/instruments");
+      window.location.reload();
     },
   });
 
