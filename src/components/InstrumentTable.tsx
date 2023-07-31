@@ -7,13 +7,10 @@ import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
 import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
 import { AddInstrumentButton } from "./AddInstrumentButton";
 
-// This is typing the props for the component SingleInstrument
-// Here is where we define the props that the component will receive
 interface SingleInstrumentProps {
   instrument: Instrument;
 }
 
-// We want to type the object, and cannot type the individual props here
 function SingleInstrument({ instrument }: SingleInstrumentProps) {
   return (
     <li className="mb-2 flex w-full px-3 text-lg">
