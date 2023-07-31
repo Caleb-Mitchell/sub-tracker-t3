@@ -1,3 +1,5 @@
+import { Toaster } from "react-hot-toast";
+
 // import Head from "next/head";
 // import Link from "next/link";
 import { PageHeader } from "~/components/PageHeader";

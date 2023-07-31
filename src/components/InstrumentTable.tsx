@@ -5,6 +5,7 @@ import { Pagination } from "./Pagination";
 import { useState } from "react";
 import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
 import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
+import { AddInstrumentButton } from "./AddInstrumentButton";
 
 // This is typing the props for the component SingleInstrument
 // Here is where we define the props that the component will receive
@@ -37,8 +38,8 @@ export function InstrumentTable() {
     return (
       <>
         <h1 className="my-auto">Please sign in to view instruments</h1>
-        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
-        <hr className="mx-5 mb-2.5 mt-12 w-full max-w-xs" />
+        <div className="mx-auto mb-8 flex h-10 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
+        <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
       </>
     );
   }
@@ -54,7 +55,8 @@ export function InstrumentTable() {
           setCurrentPage={setCurrentPage}
           paginationItem={"instrument"}
         />
-        <hr className="mx-5 mb-2.5 mt-12 w-full max-w-xs" />
+        <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
+        <AddInstrumentButton />
       </>
     );
   }
@@ -81,7 +83,8 @@ export function InstrumentTable() {
         setCurrentPage={setCurrentPage}
         paginationItem={"instrument"}
       />
-      <hr className="mx-5 mb-2.5 mt-12 w-full max-w-xs" />
+      <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
+      <AddInstrumentButton />
     </>
   );
 }

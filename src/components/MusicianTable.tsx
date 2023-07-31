@@ -1,11 +1,9 @@
 import { type Musician } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import { Pagination } from "./Pagination";
 import { BackButton } from "./BackButton";
 import { EditButton } from "./EditButton";
 import { DeleteMusicianButton } from "./DeleteMusicianButton";
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 // This is typing the props for the component SingleInstrument

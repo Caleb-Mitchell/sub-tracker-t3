@@ -12,7 +12,7 @@ export function SignInOutButton() {
       <>
         <p>Signed in as {session.user.email}</p>
         <button
-          className="my-1.5 rounded-md bg-slate-500 px-2 py-1"
+          className="my-2 rounded-md bg-slate-500 px-2 py-1"
           onClick={() => void signOut()}
         >
           Sign out
@@ -24,7 +24,7 @@ export function SignInOutButton() {
     <>
       Not signed in <br />
       <button
-        className="my-1.5 rounded-md bg-slate-500 px-2 py-1"
+        className="my-2 rounded-md bg-slate-500 px-2 py-1"
         onClick={() => void signIn()}
       >
         Sign in

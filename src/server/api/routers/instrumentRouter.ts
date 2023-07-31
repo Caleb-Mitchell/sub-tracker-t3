@@ -96,6 +96,25 @@ export const instrumentRouter = createTRPCRouter({
     }
   }),
 
+  create: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const instrument = await ctx.prisma.instrument.create({
+          data: {
+            name: input.name,
+          },
+        });
+        return instrument;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
+
   delete: protectedProcedure
     .input(
       z.object({
