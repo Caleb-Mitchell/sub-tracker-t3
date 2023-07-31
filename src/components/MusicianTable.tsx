@@ -26,7 +26,7 @@ function SingleMusician({ musician }: SingleMusicianProps) {
       <div className="mr-16 flex w-full flex-row justify-end gap-2 self-center">
         {/* <EditButton musician={musician} /> */}
         <DeleteButton musicianId={musician.id} />
-        <EditButton />
+        {/* <EditButton /> */}
       </div>
     </li>
   );
