@@ -9,6 +9,39 @@ import {
 const ITEMS_PER_PAGE = 5;
 
 export const musicianRouter = createTRPCRouter({
+  getName: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const musician = await ctx.prisma.musician.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+        if (!musician) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No musician found",
+          });
+        }
+        return musician.name;
+      } catch (e) {
+        console.error(e);
+        if (e instanceof TRPCError) {
+          throw e;
+        } else {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Unknown error when fetching musician",
+          });
+        }
+      }
+    }),
+
   getAll: protectedProcedure
     .input(
       z.object({

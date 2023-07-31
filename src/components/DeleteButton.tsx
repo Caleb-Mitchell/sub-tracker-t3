@@ -7,6 +7,7 @@ interface DeleteButtonProps {
 
 export function DeleteButton({ musicianId }: DeleteButtonProps) {
   const ctx = api.useContext();
+  const name = api.musician.getName.useQuery({ id: musicianId }).data;
 
   const deleteMusician = api.musician.delete.useMutation({
     onMutate: async () => {
@@ -18,7 +19,7 @@ export function DeleteButton({ musicianId }: DeleteButtonProps) {
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("Musician deleted");
+      toast.success(`Musician ${name} deleted`);
     },
     onError: (err) => {
       toast.dismiss();
