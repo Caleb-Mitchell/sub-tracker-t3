@@ -1,11 +1,13 @@
 import { api } from "~/utils/api";
 import toast, { Toaster } from "react-hot-toast";
 
-interface DeleteButtonProps {
+interface DeleteMusicianButtonProps {
   musicianId: string;
 }
 
-export function DeleteButton({ musicianId }: DeleteButtonProps) {
+export function DeleteMusicianButton({
+  musicianId,
+}: DeleteMusicianButtonProps) {
   const ctx = api.useContext();
   const name = api.musician.getName.useQuery({ id: musicianId }).data;
 

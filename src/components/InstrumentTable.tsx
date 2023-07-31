@@ -3,6 +3,8 @@ import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { Pagination } from "./Pagination";
 import { useState } from "react";
+import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
+import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
 
 // This is typing the props for the component SingleInstrument
 // Here is where we define the props that the component will receive
@@ -13,9 +15,14 @@ interface SingleInstrumentProps {
 // We want to type the object, and cannot type the individual props here
 function SingleInstrument({ instrument }: SingleInstrumentProps) {
   return (
-    <a href={`/instruments/${instrument.id}`}>
-      <li className="mx-5 text-lg">{instrument.name}</li>
-    </a>
+    <li className="mb-1 ml-8 flex w-full text-lg">
+      <div className="w-full">
+        <a href={`/instruments/${instrument.id}`}>{instrument.name}</a>
+      </div>
+      <div className="mr-16 flex w-full flex-row justify-end self-center">
+        <DeleteInstrumentButton instrumentId={instrument.id} />
+      </div>
+    </li>
   );
 }
 
@@ -39,7 +46,9 @@ export function InstrumentTable() {
   if (isLoading) {
     return (
       <>
-        <div className="mx-auto mb-16 flex h-20 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
+        <ul className="mx-auto flex h-40 w-full flex-col items-start border-x md:max-w-2xl">
+          <PlaceholderInstrumentList />
+        </ul>
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
@@ -62,7 +71,7 @@ export function InstrumentTable() {
 
   return (
     <>
-      <ul className="mx-auto flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
+      <ul className="mx-auto flex h-40 w-full flex-col items-start border-x md:max-w-2xl">
         {instrumentData.map((instrument) => (
           <SingleInstrument instrument={instrument} key={instrument.id} />
         ))}

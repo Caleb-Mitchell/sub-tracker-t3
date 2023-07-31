@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { Pagination } from "./Pagination";
 import { BackButton } from "./BackButton";
 import { EditButton } from "./EditButton";
-import { DeleteButton } from "./DeleteButton";
+import { DeleteMusicianButton } from "./DeleteMusicianButton";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
@@ -25,7 +25,7 @@ function SingleMusician({ musician }: SingleMusicianProps) {
       </div>
       <div className="mr-16 flex w-full flex-row justify-end gap-2 self-center">
         {/* <EditButton musician={musician} /> */}
-        <DeleteButton musicianId={musician.id} />
+        <DeleteMusicianButton musicianId={musician.id} />
         {/* <EditButton /> */}
       </div>
     </li>
