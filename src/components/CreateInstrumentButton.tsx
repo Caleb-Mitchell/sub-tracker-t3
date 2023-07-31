@@ -18,7 +18,8 @@ export function CreateInstrumentButton({
         type="submit"
         onClick={() => {
           createInstrument.mutate({ name: instrumentName });
-          return void router.push("/instruments");
+          // return void router.push("/instruments");
+          window.location.replace("/instruments");
         }}
       >
         Add Instrument
