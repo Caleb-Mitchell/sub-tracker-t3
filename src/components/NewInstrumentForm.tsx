@@ -1,18 +1,44 @@
 import { BackButton } from "./BackButton";
 import { useState } from "react";
 import { CreateInstrumentButton } from "./CreateInstrumentButton";
+import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 export function NewInstrumentForm() {
   const [instrumentName, setInstrumentName] = useState("");
-  // how to add what is returned by form to the state?
+
+  // const ctx = api.useContext();
+  const router = useRouter();
+
+  const createInstrument = api.instrument.create.useMutation({
+    // onMutate: async () => {
+    //   console.log("Creating instrument...");
+    //   await ctx.instrument.getAll.cancel();
+    // },
+    // onSettled: async () => {
+    //   await ctx.instrument.getAll.invalidate();
+    // },
+    onSuccess: () => {
+      console.log("Instrument created");
+      void router.push("/instruments");
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   return (
     <>
       <fieldset className="flex w-16">
-        <form method="post" action="/instruments" className="h-56">
+        <form
+          className="h-56"
+          onSubmit={(e) => {
+            e.preventDefault();
+            console.log("submitted");
+            createInstrument.mutate({ name: instrumentName });
+          }}
+        >
           <div className="my-auto flex flex-col gap-2">
-            {/* TODO: Add CSRF protection, example from phoenix */}
-            {/* <input type="hidden" name="_csrf_token" value={"#{Plug.CSRFProtection.get_csrf_token()}"} /> */}
             <label className="text-slate-300">
               Name:{" "}
               <input
@@ -22,7 +48,7 @@ export function NewInstrumentForm() {
                 onChange={(e) => setInstrumentName(e.target.value)}
               />
             </label>
-            <CreateInstrumentButton instrumentName={instrumentName} />
+            <CreateInstrumentButton />
           </div>
         </form>
       </fieldset>

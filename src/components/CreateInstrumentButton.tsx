@@ -1,41 +1,9 @@
-import { api } from "~/utils/api";
-import { useRouter } from "next/navigation";
-
-interface CreateInstrumentButtonProps {
-  instrumentName: string;
-}
-
-export function CreateInstrumentButton({
-  instrumentName,
-}: CreateInstrumentButtonProps) {
-  // const ctx = api.useContext();
-  const router = useRouter();
-  const createInstrument = api.instrument.create.useMutation({
-    //   onMutate: async () => {
-    //     console.log("Creating instrument...");
-    //     await ctx.instrument.getAll.cancel();
-    //   },
-    //   onSettled: async () => {
-    //     await ctx.instrument.getAll.invalidate();
-    //   },
-    onSuccess: () => {
-      console.log("Instrument created");
-      router.refresh();
-      router.push("/instruments");
-    },
-    //   onError: (err) => {
-    //     console.log(err);
-    //   },
-  });
-
+export function CreateInstrumentButton() {
   return (
     <>
       <button
         className="my-1.5 w-max self-center rounded-md bg-slate-500 px-2 py-1"
         type="submit"
-        onClick={() => {
-          createInstrument.mutate({ name: instrumentName });
-        }}
       >
         Add Instrument
       </button>
