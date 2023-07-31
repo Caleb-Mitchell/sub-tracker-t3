@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import toast, { Toaster } from "react-hot-toast";
 import { api } from "~/utils/api";
 
 interface CreateInstrumentButtonProps {
@@ -19,13 +18,11 @@ export function CreateInstrumentButton({
         type="submit"
         onClick={() => {
           createInstrument.mutate({ name: instrumentName });
-          toast.success(`Instrument ${instrumentName} created`);
           void router.push("/instruments");
         }}
       >
         Add Instrument
       </button>
-      <Toaster position={"top-right"} />
     </>
   );
 }
