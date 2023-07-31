@@ -9,7 +9,10 @@ export default function InstrumentList() {
   return (
     <main className="mx-5 my-8 flex flex-col items-center">
       <PageHeader />
-      <PageSubHeader />
+      <PageSubHeader
+        headerText="A simple app to manage substitute musician information"
+        instrument=""
+      />
       <InstrumentTable />
       <SignInOutButton />
     </main>

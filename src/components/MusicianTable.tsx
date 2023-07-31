@@ -41,7 +41,6 @@ export function MusicianTable() {
   const router = useRouter();
   const instrumentId = router.query.instrumentId as string;
 
-  console.log(typeof instrumentId);
   const { data: musicianData, isLoading } = api.musician.getPage.useQuery({
     pageNumber: currentPage,
     instrumentId: instrumentId,
