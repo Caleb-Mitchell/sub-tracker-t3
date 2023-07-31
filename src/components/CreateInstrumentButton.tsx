@@ -1,4 +1,5 @@
 import { api } from "~/utils/api";
+import { useRouter } from "next/navigation";
 
 interface CreateInstrumentButtonProps {
   instrumentName: string;
@@ -7,22 +8,23 @@ interface CreateInstrumentButtonProps {
 export function CreateInstrumentButton({
   instrumentName,
 }: CreateInstrumentButtonProps) {
-  const ctx = api.useContext();
-  const createInstrument = api.instrument.create.useMutation({
-    onMutate: async () => {
-      console.log("Creating instrument...");
-      await ctx.instrument.getAll.cancel();
-    },
-    onSettled: async () => {
-      await ctx.instrument.getAll.invalidate();
-    },
-    onSuccess: () => {
-      console.log("Instrument created");
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+  // const ctx = api.useContext();
+  const router = useRouter();
+  const createInstrument = api.instrument.create.useMutation();
+  //   onMutate: async () => {
+  //     console.log("Creating instrument...");
+  //     await ctx.instrument.getAll.cancel();
+  //   },
+  //   onSettled: async () => {
+  //     await ctx.instrument.getAll.invalidate();
+  //   },
+  //   onSuccess: () => {
+  //     console.log("Instrument created");
+  //   },
+  //   onError: (err) => {
+  //     console.log(err);
+  //   },
+  // });
 
   return (
     <>
@@ -31,6 +33,8 @@ export function CreateInstrumentButton({
         type="submit"
         onClick={() => {
           createInstrument.mutate({ name: instrumentName });
+          router.refresh();
+          router.push("/instruments");
         }}
       >
         Add Instrument

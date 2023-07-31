@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 // export function EditButton({ instrumentId, musicianId }) {
 export function EditButton() {
@@ -12,7 +12,7 @@ export function EditButton() {
     <button
       className="py-.5 rounded-md bg-slate-500 px-2"
       // const href = `/instruments/${instrumentId}/musicians/${musicianId}/edit`;
-      onClick={() => void router.push(`google.com`)}
+      onClick={() => router.push(`google.com`)}
     >
       Edit
     </button>
