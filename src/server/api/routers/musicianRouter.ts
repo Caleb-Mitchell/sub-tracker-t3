@@ -98,19 +98,77 @@ export const musicianRouter = createTRPCRouter({
       }
     }),
 
-  // hello: publicProcedure
-  //   .input(z.object({ text: z.string() }))
-  //   .query(({ input }) => {
-  //     return {
-  //       greeting: `Hello ${input.text}`,
-  //     };
+  delete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const musician = await ctx.prisma.musician.delete({
+          where: {
+            id: input.id,
+          },
+        });
+        return musician;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
+
+  // create: protectedProcedure
+  //   .input(
+  //     z.object({
+  //       name: z.string(),
+  //       instrumentId: z.string(),
+  //     })
+  //   )
+  //   .mutation(async ({ input, ctx }) => {
+  //     try {
+  //       const musician = await ctx.prisma.musician.create({
+  //         data: {
+  //           name: input.name,
+  //           instruments: {
+  //             connect: {
+  //               id: input.instrumentId,
+  //             },
+  //           },
+  //         },
+  //       });
+  //       return musician;
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
   //   }),
 
-  // getAll: publicProcedure.query(({ ctx }) => {
-  //   return ctx.prisma.example.findMany();
-  // }),
-
-  // getSecretMessage: protectedProcedure.query(() => {
-  //   return "you can now see this secret message!";
-  // }),
+  // update: protectedProcedure
+  //   .input(
+  //     z.object({
+  //       id: z.string(),
+  //       name: z.string(),
+  //       instrumentId: z.string(),
+  //     })
+  //   )
+  //   .mutation(async ({ input, ctx }) => {
+  //     try {
+  //       const musician = await ctx.prisma.musician.update({
+  //         where: {
+  //           id: input.id,
+  //         },
+  //         data: {
+  //           name: input.name,
+  //           instruments: {
+  //             connect: {
+  //               id: input.instrumentId,
+  //             },
+  //           },
+  //         },
+  //       });
+  //       return musician;
+  //
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   }),
 });

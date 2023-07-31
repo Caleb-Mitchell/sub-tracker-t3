@@ -25,12 +25,9 @@ function SingleMusician({ musician }: SingleMusicianProps) {
       </div>
       <div className="mr-16 flex w-full flex-row justify-end gap-2 self-center">
         {/* <EditButton musician={musician} /> */}
-        {/* <DeleteButton musician={musician} /> */}
+        <DeleteButton musicianId={musician.id} />
         <EditButton />
-        <DeleteButton />
       </div>
-
-      {/* if musician is not the first listed, show hr below */}
     </li>
   );
 }

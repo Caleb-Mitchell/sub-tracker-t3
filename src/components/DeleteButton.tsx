@@ -1,20 +1,41 @@
-import { useRouter } from "next/router";
+import { api } from "~/utils/api";
+import toast, { Toaster } from "react-hot-toast";
 
-// export function EditButton({ instrumentId, musicianId }) {
-export function DeleteButton() {
-  const router = useRouter();
+interface DeleteButtonProps {
+  musicianId: string;
+}
 
-  if (!router) {
-    return "Loading...";
-  }
+export function DeleteButton({ musicianId }: DeleteButtonProps) {
+  const ctx = api.useContext();
+
+  const deleteMusician = api.musician.delete.useMutation({
+    onMutate: async () => {
+      toast.loading("Deleting musician...");
+      await ctx.musician.getPage.cancel();
+    },
+    onSettled: async () => {
+      await ctx.musician.getPage.invalidate();
+    },
+    onSuccess: () => {
+      toast.dismiss();
+      toast.success("Musician deleted");
+    },
+    onError: (err) => {
+      toast.dismiss();
+      toast.error(`Error deleting musician: ${err.message}}`);
+      console.log(err);
+    },
+  });
 
   return (
-    <button
-      className="py-.5 rounded-md bg-slate-500 px-2"
-      // const href = `/instruments/${instrumentId}/musicians/${musicianId}/edit`;
-      onClick={() => void router.push(`google.com`)}
-    >
-      Delete
-    </button>
+    <>
+      <button
+        className="py-.5 rounded-md bg-slate-500 px-2"
+        onClick={() => deleteMusician.mutate({ id: musicianId })}
+      >
+        Delete
+      </button>
+      <Toaster position={"top-right"} />
+    </>
   );
 }
