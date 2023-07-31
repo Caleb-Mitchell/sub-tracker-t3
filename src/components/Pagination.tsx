@@ -130,7 +130,7 @@ export function Pagination({
   // TODO: set up first and last visible page numbers based on a slice of the total number of pages?
 
   if (!lastPage) {
-    return <h1>Loading Page Numbers...</h1>;
+    return <h1 className="pt-10">Loading Page Numbers...</h1>;
   }
 
   const firstVisiblePage = 1;
