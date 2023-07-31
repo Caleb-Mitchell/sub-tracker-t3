@@ -33,13 +33,10 @@ function SingleMusician({ musician }: SingleMusicianProps) {
 }
 
 export function MusicianTable() {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const router = useRouter();
   const instrumentId = router.query.instrumentId as string;
 
-  const { data: musicianData, isLoading } = api.musician.getPage.useQuery({
-    pageNumber: currentPage,
+  const { data: musicianData, isLoading } = api.musician.getAll.useQuery({
     instrumentId: instrumentId,
   });
   const { data: session } = useSession();
@@ -88,11 +85,6 @@ export function MusicianTable() {
           </>
         ))}
       </ul>
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        paginationItem={"musician"}
-      />
       <hr className="mb-2.5 mt-12 w-full max-w-xs" />
       <BackButton />
     </>
