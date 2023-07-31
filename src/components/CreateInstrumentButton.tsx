@@ -10,21 +10,23 @@ export function CreateInstrumentButton({
 }: CreateInstrumentButtonProps) {
   // const ctx = api.useContext();
   const router = useRouter();
-  const createInstrument = api.instrument.create.useMutation();
-  //   onMutate: async () => {
-  //     console.log("Creating instrument...");
-  //     await ctx.instrument.getAll.cancel();
-  //   },
-  //   onSettled: async () => {
-  //     await ctx.instrument.getAll.invalidate();
-  //   },
-  //   onSuccess: () => {
-  //     console.log("Instrument created");
-  //   },
-  //   onError: (err) => {
-  //     console.log(err);
-  //   },
-  // });
+  const createInstrument = api.instrument.create.useMutation({
+    //   onMutate: async () => {
+    //     console.log("Creating instrument...");
+    //     await ctx.instrument.getAll.cancel();
+    //   },
+    //   onSettled: async () => {
+    //     await ctx.instrument.getAll.invalidate();
+    //   },
+    onSuccess: () => {
+      console.log("Instrument created");
+      router.refresh();
+      router.push("/instruments");
+    },
+    //   onError: (err) => {
+    //     console.log(err);
+    //   },
+  });
 
   return (
     <>
@@ -33,8 +35,6 @@ export function CreateInstrumentButton({
         type="submit"
         onClick={() => {
           createInstrument.mutate({ name: instrumentName });
-          router.refresh();
-          router.push("/instruments");
         }}
       >
         Add Instrument
