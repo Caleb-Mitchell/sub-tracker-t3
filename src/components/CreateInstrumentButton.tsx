@@ -1,3 +1,4 @@
+// import type { Instrument } from "@prisma/client";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
@@ -8,12 +9,22 @@ interface CreateInstrumentButtonProps {
 export function CreateInstrumentButton({
   instrumentName,
 }: CreateInstrumentButtonProps) {
+  const ctx = api.useContext();
   const router = useRouter();
   const createInstrument = api.instrument.create.useMutation({
+    onMutate: async () => {
+      console.log("Creating instrument...");
+      await ctx.instrument.getAll.cancel();
+    },
+    onSettled: async () => {
+      await ctx.instrument.getAll.invalidate();
+    },
     onSuccess: () => {
       console.log("Instrument created");
       void router.push("/instruments");
-      window.location.reload();
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 
