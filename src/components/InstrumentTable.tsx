@@ -16,11 +16,11 @@ interface SingleInstrumentProps {
 // We want to type the object, and cannot type the individual props here
 function SingleInstrument({ instrument }: SingleInstrumentProps) {
   return (
-    <li className="mb-1 ml-8 flex w-full text-lg">
+    <li className="mb-2 flex w-full px-3 text-lg">
       <div className="w-full">
         <a href={`/instruments/${instrument.id}`}>{instrument.name}</a>
       </div>
-      <div className="mr-16 flex w-full flex-row justify-end self-center">
+      <div className="flex w-full flex-row justify-end self-center">
         <DeleteInstrumentButton instrumentId={instrument.id} />
       </div>
     </li>
@@ -73,7 +73,7 @@ export function InstrumentTable() {
 
   return (
     <>
-      <ul className="mx-auto flex h-40 w-full flex-col items-start border-x md:max-w-2xl">
+      <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
         {instrumentData.map((instrument) => (
           <SingleInstrument instrument={instrument} key={instrument.id} />
         ))}
