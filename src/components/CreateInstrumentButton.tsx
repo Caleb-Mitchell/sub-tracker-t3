@@ -9,7 +9,12 @@ export function CreateInstrumentButton({
   instrumentName,
 }: CreateInstrumentButtonProps) {
   const router = useRouter();
-  const createInstrument = api.instrument.create.useMutation();
+  const createInstrument = api.instrument.create.useMutation({
+    onSuccess: () => {
+      console.log("Instrument created");
+      void router.push("/instruments");
+    },
+  });
 
   return (
     <>
@@ -18,8 +23,6 @@ export function CreateInstrumentButton({
         type="submit"
         onClick={() => {
           createInstrument.mutate({ name: instrumentName });
-          // return void router.push("/instruments");
-          window.location.href = "/instruments";
         }}
       >
         Add Instrument
