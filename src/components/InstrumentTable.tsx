@@ -44,7 +44,7 @@ export function InstrumentTable() {
   if (isLoading) {
     return (
       <>
-        <ul className="mx-auto flex h-40 w-full flex-col items-start border-x md:max-w-2xl">
+        <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
           <PlaceholderInstrumentList />
         </ul>
         <Pagination
