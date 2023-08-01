@@ -150,30 +150,34 @@ export const musicianRouter = createTRPCRouter({
       }
     }),
 
-  // create: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       name: z.string(),
-  //       instrumentId: z.string(),
-  //     })
-  //   )
-  //   .mutation(async ({ input, ctx }) => {
-  //     try {
-  //       const musician = await ctx.prisma.musician.create({
-  //         data: {
-  //           name: input.name,
-  //           instruments: {
-  //             connect: {
-  //               id: input.instrumentId,
-  //             },
-  //           },
-  //         },
-  //       });
-  //       return musician;
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }),
+  create: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        phone: z.string(),
+        email: z.string(),
+        instrumentId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const musician = await ctx.prisma.musician.create({
+          data: {
+            name: input.name,
+            phoneNumber: input.phone,
+            emailAddress: input.email,
+            instruments: {
+              connect: {
+                id: input.instrumentId,
+              },
+            },
+          },
+        });
+        return musician;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
 
   // update: protectedProcedure
   //   .input(

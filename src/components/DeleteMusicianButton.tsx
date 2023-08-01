@@ -1,5 +1,5 @@
 import { api } from "~/utils/api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 interface DeleteMusicianButtonProps {
   musicianId: string;
@@ -14,10 +14,10 @@ export function DeleteMusicianButton({
   const deleteMusician = api.musician.delete.useMutation({
     onMutate: async () => {
       toast.loading("Deleting musician...");
-      await ctx.musician.getPage.cancel();
+      await ctx.musician.getAll.cancel();
     },
     onSettled: async () => {
-      await ctx.musician.getPage.invalidate();
+      await ctx.musician.getAll.invalidate();
     },
     onSuccess: () => {
       toast.dismiss();

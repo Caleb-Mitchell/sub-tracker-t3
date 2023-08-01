@@ -1,10 +1,11 @@
 import { type Musician } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import { BackButton } from "./BackButton";
-import { EditButton } from "./EditButton";
-import { DeleteMusicianButton } from "./DeleteMusicianButton";
 import { useRouter } from "next/router";
+import { AddMusicianButton } from "./AddMusicianButton";
+import { BackButton } from "./BackButton";
+import { DeleteMusicianButton } from "./DeleteMusicianButton";
+import { EditButton } from "./EditButton";
 
 // This is typing the props for the component SingleInstrument
 // Here is where we define the props that the component will receive
@@ -24,7 +25,6 @@ function SingleMusician({ musician }: SingleMusicianProps) {
       <div className="mr-16 flex w-full flex-row justify-end gap-2 self-center">
         {/* <EditButton musician={musician} /> */}
         <DeleteMusicianButton musicianId={musician.id} />
-        {/* <EditButton /> */}
       </div>
     </li>
   );
@@ -84,7 +84,10 @@ export function MusicianTable() {
         ))}
       </ul>
       <hr className="mb-2.5 mt-12 w-full max-w-xs" />
-      <BackButton />
+      <div className="flex space-x-6">
+        <BackButton />
+        <AddMusicianButton instrumentId={instrumentId} />
+      </div>
     </>
   );
 }

@@ -6,6 +6,7 @@ import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
 import { Pagination } from "./Pagination";
 import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
 import { type Instrument } from "@prisma/client";
+import Link from "next/link";
 
 interface SingleInstrumentProps {
   instrument: Instrument;
@@ -15,7 +16,7 @@ function SingleInstrument({ instrument }: SingleInstrumentProps) {
   return (
     <li className="mb-2 flex w-full px-3 text-lg">
       <div className="w-full">
-        <a href={`/instruments/${instrument.id}`}>{instrument.name}</a>
+        <Link href={`/instruments/${instrument.id}`}>{instrument.name}</Link>
       </div>
       <div className="flex w-full flex-row justify-end self-center">
         <DeleteInstrumentButton instrumentId={instrument.id} />

@@ -1,13 +1,10 @@
 import { toast, Toaster } from "react-hot-toast";
 import { useEffect } from "react";
-
-// import Head from "next/head";
-// import Link from "next/link";
+import { useRouter } from "next/router";
 import { PageHeader } from "~/components/PageHeader";
 import { InstrumentTable } from "~/components/InstrumentTable";
 import { SignInOutButton } from "~/components/SignInOutButton";
 import { PageSubHeader } from "~/components/PageSubHeader";
-import { useRouter } from "next/router";
 
 export default function InstrumentList() {
   const router = useRouter();
