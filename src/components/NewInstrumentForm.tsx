@@ -3,7 +3,6 @@ import { CreateInstrumentButton } from "./CreateInstrumentButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { toast } from "react-hot-toast";
 
 export function NewInstrumentForm() {
   const [instrumentName, setInstrumentName] = useState("");
@@ -20,7 +19,6 @@ export function NewInstrumentForm() {
     //   await ctx.instrument.getAll.invalidate();
     // },
     onSuccess: () => {
-      // toast.success(`Instrument ${instrumentName} created`);
       void router.push(
         {
           pathname: "/instruments",
@@ -44,7 +42,6 @@ export function NewInstrumentForm() {
           className="h-56"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log("submitted");
             createInstrument.mutate({ name: instrumentName });
           }}
         >
