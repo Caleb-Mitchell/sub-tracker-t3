@@ -2,7 +2,7 @@ import { type Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const musicians: Prisma.MusicianCreateInput[] = [
-  // { name: "caleb", phoneNumber: "5555555555", emailAddress: "caleb@gmail.com" },
+  { name: "caleb", phoneNumber: "5555555555", emailAddress: "caleb@gmail.com" },
   { name: "stef", phoneNumber: "5555555556", emailAddress: "stef@gmail.com" },
   { name: "steve", phoneNumber: "5555555557", emailAddress: "steve@gmail.com" },
   { name: "joe", phoneNumber: "5555555558", emailAddress: "joe@gmail.com" },
@@ -43,7 +43,7 @@ const musicians: Prisma.MusicianCreateInput[] = [
     emailAddress: "esther@gmail.com",
   },
   { name: "renee", phoneNumber: "5555555575", emailAddress: "renee@gmail.com" },
-  { name: "rona", phoneNumber: "5555555576", emailAddress: "rona@gmail.com" },
+  { name: "jeff", phoneNumber: "5555555576", emailAddress: "jeff@gmail.com" },
   { name: "jimmy", phoneNumber: "5555555577", emailAddress: "jimmy@gmail.com" },
   { name: "myla", phoneNumber: "5555555578", emailAddress: "myla@gmail.com" },
   {
@@ -149,42 +149,32 @@ async function connectMusicianToInstrument(
 }
 
 async function main() {
-  // console.log(`Seeding musicians...`);
-  // for (const m of musicians) {
-  //   await prisma.musician.create({ data: m });
-  //   console.log(`Created musician ${m.name}`);
-  // }
-
-  // console.log(`Seeding instruments`);
-  // for (const i of instruments) {
-  //   await prisma.instrument.create({ data: i });
-  //   console.log(`Created instrument ${i.name}`);
-  // }
-
-  // console.log(`Connecting musicians with their instruments...`);
-  // for (let i = 0; i < musicians.length; i++) {
-  //   try {
-  //     console.log(`Connecting ${musicians[i]?.name} with ${instruments[i]?.name}`)
-  //     await connectMusicianToInstrument(
-  //       musicians[i]?.phoneNumber ?? "",
-  //       instruments[i]?.name ?? ""
-  //     );
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
+  console.log(`Seeding musicians...`);
+  for (const m of musicians) {
+    await prisma.musician.create({ data: m });
+    console.log(`Created musician ${m.name}`);
+  }
+  console.log(`Seeding instruments`);
+  for (const i of instruments) {
+    await prisma.instrument.create({ data: i });
+    console.log(`Created instrument ${i.name}`);
+  }
+  console.log(`Connecting musicians with their instruments...`);
+  for (let i = 0; i < musicians.length; i++) {
+    try {
+      console.log(
+        `Connecting ${musicians[i]?.name} with ${instruments[i]?.name}`
+      );
+      await connectMusicianToInstrument(
+        musicians[i]?.phoneNumber ?? "",
+        instruments[i]?.name ?? ""
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 
-// async function main() {
-//   console.log(`Start seeding ...`)
-//   for (const u of userData) {
-//     const user = await prisma.user.create({
-//       data: u,
-//     })
-//     console.log(`Created user with id: ${user.id}`)
-//   }
-//   console.log(`Seeding finished.`)
-// }
 main()
   .then(async () => {
     await prisma.$disconnect();
