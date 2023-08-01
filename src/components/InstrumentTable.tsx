@@ -1,11 +1,11 @@
-import { type Instrument } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import { Pagination } from "./Pagination";
 import { useState } from "react";
-import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
-import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
 import { AddInstrumentButton } from "./AddInstrumentButton";
+import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
+import { Pagination } from "./Pagination";
+import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
+import { type Instrument } from "@prisma/client";
 
 interface SingleInstrumentProps {
   instrument: Instrument;

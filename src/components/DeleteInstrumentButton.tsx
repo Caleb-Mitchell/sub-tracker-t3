@@ -1,5 +1,5 @@
 import { api } from "~/utils/api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 interface DeleteInstrumentButtonProps {
   instrumentId: string;
@@ -38,7 +38,6 @@ export function DeleteInstrumentButton({
       >
         Delete
       </button>
-      <Toaster position={"top-right"} />
     </>
   );
 }

@@ -38,7 +38,6 @@ export function DeleteMusicianButton({
       >
         Delete
       </button>
-      <Toaster position={"top-right"} />
     </>
   );
 }
