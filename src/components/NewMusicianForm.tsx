@@ -3,21 +3,29 @@ import { CreateMusicianButton } from "./CreateMusicianButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { type Instrument } from "@prisma/client";
 
 interface NewMusicianFormProps {
-  instrumentId: string;
+  originalInstrument: Instrument;
 }
 
-export function NewMusicianForm({ instrumentId }: NewMusicianFormProps) {
-  const originalInstrumentName = api.instrument.getName.useQuery({
-    id: instrumentId,
-  }).data;
+export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
   const instrumentList = api.instrument.getAll.useQuery().data;
 
-  const [newInstrumentId, setInstrumentId] = useState(instrumentId);
+  const [selectedInstrument, setSelectedInstrument] =
+    useState<Instrument | null>(null);
   const [musicianName, setMusicianName] = useState("");
   const [musicianPhone, setMusicianPhone] = useState("");
   const [musicianEmail, setMusicianEmail] = useState("");
+
+  const originalInstrumentIfNotSelected = () => {
+    return selectedInstrument ? selectedInstrument : originalInstrument;
+  };
+
+  // TODO: make sure this always returns an instrument
+  const findInstrumentByName = (name: string) => {
+    return instrumentList?.find((i) => i.name === name);
+  };
 
   const router = useRouter();
 
@@ -32,13 +40,13 @@ export function NewMusicianForm({ instrumentId }: NewMusicianFormProps) {
     onSuccess: () => {
       void router.push(
         {
-          pathname: `/instruments/${newInstrumentId}`,
+          pathname: `/instruments/${originalInstrumentIfNotSelected().id}`,
           query: {
             musicianCreated: true,
             message: `Musician ${musicianName} created`,
           },
         },
-        `/instruments/${newInstrumentId}`
+        `/instruments/${originalInstrumentIfNotSelected().id}`
       );
     },
     onError: (err) => {
@@ -57,7 +65,7 @@ export function NewMusicianForm({ instrumentId }: NewMusicianFormProps) {
               name: musicianName,
               phone: musicianPhone,
               email: musicianEmail,
-              instrumentId: newInstrumentId,
+              instrumentId: originalInstrumentIfNotSelected().id,
             });
           }}
         >
@@ -89,13 +97,17 @@ export function NewMusicianForm({ instrumentId }: NewMusicianFormProps) {
             <label>
               Instrument:
               <select
-                className="mt-2 rounded-md bg-slate-300 py-1 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
-                onChange={(e) => setInstrumentId(e.target.value)}
-              // I want to rerender pageSubHeader when this value changes
+                defaultValue={originalInstrument.name}
+                className="mt-2 w-full rounded-md bg-slate-300 py-1 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
+                onChange={(e) =>
+                  setSelectedInstrument(
+                    findInstrumentByName(e.target.value) ?? originalInstrument
+                  )
+                }
               >
-                <option selected>{originalInstrumentName}</option>
+                <option>{originalInstrumentIfNotSelected().name}</option>
                 {instrumentList?.map((instrument) => {
-                  if (instrument.id !== instrumentId) {
+                  if (instrument !== selectedInstrument) {
                     return (
                       <option value={instrument.id} key={instrument.id}>
                         {instrument.name}
