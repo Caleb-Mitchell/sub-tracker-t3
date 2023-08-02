@@ -17,6 +17,14 @@ export default function InstrumentList() {
     }
   });
 
+  useEffect(() => {
+    if (router.query.instrumentUpdated) {
+      toast.success(router.query.message as string);
+      router.query.instrumentUpdated = undefined;
+      void router.replace("/instruments", undefined, { shallow: true });
+    }
+  });
+
   return (
     <main className="mx-5 my-8 flex flex-col items-center">
       <Toaster position={"top-right"} />

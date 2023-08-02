@@ -30,13 +30,6 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
   const router = useRouter();
 
   const createMusician = api.musician.create.useMutation({
-    // onMutate: async () => {
-    //   console.log("Creating instrument...");
-    //   await ctx.instrument.getAll.cancel();
-    // },
-    // onSettled: async () => {
-    //   await ctx.instrument.getAll.invalidate();
-    // },
     onSuccess: () => {
       void router.push(
         {

@@ -1,29 +1,31 @@
+import { type Instrument } from "@prisma/client";
 import { BackButton } from "./BackButton";
-import { CreateInstrumentButton } from "./CreateInstrumentButton";
+import { ConfirmButton } from "./ConfirmButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 
-export function NewInstrumentForm() {
-  const [instrumentName, setInstrumentName] = useState("");
+interface EditInstrumentFormProps {
+  originalInstrument: Instrument;
+}
 
+export function EditInstrumentForm({
+  originalInstrument,
+}: EditInstrumentFormProps) {
   const router = useRouter();
 
-  const createInstrument = api.instrument.create.useMutation({
-    // onMutate: async () => {
-    //   console.log("Creating instrument...");
-    //   await ctx.instrument.getAll.cancel();
-    // },
-    // onSettled: async () => {
-    //   await ctx.instrument.getAll.invalidate();
-    // },
+  const [updatedInstrument, setUpdatedInstrument] = useState<Instrument | null>(
+    null
+  );
+
+  const updateInstrument = api.instrument.update.useMutation({
     onSuccess: () => {
       void router.push(
         {
           pathname: "/instruments",
           query: {
-            instrumentCreated: true,
-            message: `Instrument ${instrumentName} created`,
+            instrumentUpdated: true,
+            message: `Instrument ${updatedInstrument?.name} updated`,
           },
         },
         "/instruments"
@@ -41,19 +43,28 @@ export function NewInstrumentForm() {
           className="h-56"
           onSubmit={(e) => {
             e.preventDefault();
-            createInstrument.mutate({ name: instrumentName });
+            updateInstrument.mutate({
+              id: originalInstrument.id,
+              name: updatedInstrument?.name ?? originalInstrument.name,
+            });
           }}
         >
           <div className="my-auto flex flex-col gap-2">
             <label className="text-slate-300">
               Name:{" "}
               <input
+                value={updatedInstrument?.name ?? originalInstrument.name}
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
                 type="text"
-                onChange={(e) => setInstrumentName(e.target.value)}
+                onChange={(e) =>
+                  setUpdatedInstrument({
+                    id: originalInstrument.id ?? updatedInstrument?.id,
+                    name: e.target.value,
+                  })
+                }
               />
             </label>
-            <CreateInstrumentButton />
+            <ConfirmButton text="Confirm New Name" />
           </div>
         </form>
       </fieldset>

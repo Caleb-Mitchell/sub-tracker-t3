@@ -2,6 +2,7 @@ import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { AddInstrumentButton } from "./AddInstrumentButton";
+import { EditInstrumentButton } from "./EditInstrumentButton";
 import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
 import { Pagination } from "./Pagination";
 import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
@@ -19,6 +20,7 @@ function SingleInstrument({ instrument }: SingleInstrumentProps) {
         <Link href={`/instruments/${instrument.id}`}>{instrument.name}</Link>
       </div>
       <div className="flex w-full flex-row justify-end self-center">
+        <EditInstrumentButton instrumentId={instrument.id} />
         <DeleteInstrumentButton instrumentId={instrument.id} />
       </div>
     </li>
