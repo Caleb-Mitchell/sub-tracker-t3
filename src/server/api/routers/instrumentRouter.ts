@@ -9,6 +9,39 @@ import {
 const ITEMS_PER_PAGE = 5;
 
 export const instrumentRouter = createTRPCRouter({
+  getById: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const instrument = await ctx.prisma.instrument.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+        if (!instrument) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No instrument found",
+          });
+        }
+        return instrument;
+      } catch (e) {
+        console.error(e);
+        if (e instanceof TRPCError) {
+          throw e;
+        } else {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Unknown error when fetching instrument",
+          });
+        }
+      }
+    }),
+
   getName: protectedProcedure
     .input(
       z.object({
