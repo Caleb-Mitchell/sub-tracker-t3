@@ -21,6 +21,12 @@ export default function MusicianList() {
       void router.replace(`/instruments/${instrumentId}`, undefined, {
         shallow: true,
       });
+    } else if (router.query.musicianUpdated) {
+      toast.success(router.query.message as string);
+      router.query.musicianUpdated = undefined;
+      void router.replace(`/instruments/${instrumentId}`, undefined, {
+        shallow: true,
+      });
     }
   });
 

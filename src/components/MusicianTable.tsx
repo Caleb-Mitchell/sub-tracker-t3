@@ -5,16 +5,14 @@ import { useRouter } from "next/router";
 import { AddMusicianButton } from "./AddMusicianButton";
 import { BackButton } from "./BackButton";
 import { DeleteMusicianButton } from "./DeleteMusicianButton";
-import { EditButton } from "./EditButton";
+import { EditMusicianButton } from "./EditMusicianButton";
 
-// This is typing the props for the component SingleInstrument
-// Here is where we define the props that the component will receive
 interface SingleMusicianProps {
+  instrumentId: string;
   musician: Musician;
 }
 
-// We want to type the object, and cannot type the individual props here
-function SingleMusician({ musician }: SingleMusicianProps) {
+function SingleMusician({ instrumentId, musician }: SingleMusicianProps) {
   return (
     <li className="ml-8 flex w-full flex-row gap-4 text-lg">
       <div className="flex flex-col">
@@ -23,7 +21,10 @@ function SingleMusician({ musician }: SingleMusicianProps) {
         <p>{musician.emailAddress}</p>
       </div>
       <div className="mr-16 flex w-full flex-row justify-end gap-2 self-center">
-        {/* <EditButton musician={musician} /> */}
+        <EditMusicianButton
+          instrumentId={instrumentId}
+          musicianId={musician.id}
+        />
         <DeleteMusicianButton musicianId={musician.id} />
       </div>
     </li>
@@ -31,11 +32,19 @@ function SingleMusician({ musician }: SingleMusicianProps) {
 }
 
 export function MusicianTable() {
-  const router = useRouter();
-  const instrumentId = router.query.instrumentId as string;
+  const query = useRouter().query.instrumentId;
+  const instrumentId = (query: string[] | string | undefined) => {
+    if (!query) {
+      console.warn(`Expected url search params`);
+      return "";
+    }
+    if (typeof query === "string") return query;
+    // TODO: will the instrumentId be the only query? will it always be the first?
+    return query[0] ?? "";
+  };
 
   const { data: musicianData, isLoading } = api.musician.getAll.useQuery({
-    instrumentId: instrumentId,
+    instrumentId: instrumentId(query),
   });
   const { data: session } = useSession();
 
@@ -76,9 +85,16 @@ export function MusicianTable() {
       <ul className="mx-auto flex max-h-96 min-h-min w-full flex-col items-start overflow-x-hidden border-x md:max-w-2xl">
         {musicianData.map((musician, idx) => (
           <>
-            <SingleMusician musician={musician} key={musician.id} />
+            <SingleMusician
+              instrumentId={instrumentId(query)}
+              musician={musician}
+              key={musician.id}
+            />
             {idx !== musicianData.length - 1 && (
-              <hr className="my-5 ml-4 w-full max-w-xs" />
+              <hr
+                key={musician.id + "hr"}
+                className="my-5 ml-4 w-full max-w-xs"
+              />
             )}
           </>
         ))}
@@ -86,7 +102,7 @@ export function MusicianTable() {
       <hr className="mb-2.5 mt-12 w-full max-w-xs" />
       <div className="flex space-x-6">
         <BackButton />
-        <AddMusicianButton instrumentId={instrumentId} />
+        <AddMusicianButton instrumentId={instrumentId(query)} />
       </div>
     </>
   );

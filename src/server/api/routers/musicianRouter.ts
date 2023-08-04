@@ -9,6 +9,39 @@ import {
 const ITEMS_PER_PAGE = 5;
 
 export const musicianRouter = createTRPCRouter({
+  getById: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const musician = await ctx.prisma.musician.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+        if (!musician) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No musician found",
+          });
+        }
+        return musician;
+      } catch (e) {
+        console.error(e);
+        if (e instanceof TRPCError) {
+          throw e;
+        } else {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Unknown error when fetching musician",
+          });
+        }
+      }
+    }),
+
   getName: protectedProcedure
     .input(
       z.object({
@@ -179,33 +212,36 @@ export const musicianRouter = createTRPCRouter({
       }
     }),
 
-  // update: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       id: z.string(),
-  //       name: z.string(),
-  //       instrumentId: z.string(),
-  //     })
-  //   )
-  //   .mutation(async ({ input, ctx }) => {
-  //     try {
-  //       const musician = await ctx.prisma.musician.update({
-  //         where: {
-  //           id: input.id,
-  //         },
-  //         data: {
-  //           name: input.name,
-  //           instruments: {
-  //             connect: {
-  //               id: input.instrumentId,
-  //             },
-  //           },
-  //         },
-  //       });
-  //       return musician;
-  //
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        phone: z.string(),
+        email: z.string(),
+        instrumentId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const musician = await ctx.prisma.musician.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            name: input.name,
+            phoneNumber: input.phone,
+            emailAddress: input.email,
+            instruments: {
+              set: {
+                id: input.instrumentId,
+              },
+            },
+          },
+        });
+        return musician;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
 });

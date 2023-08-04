@@ -32,7 +32,7 @@ export default function CreateMusician() {
           instrument={"Loading instrument"}
         />
         {/* <LoadingSpinner /> */}
-        {/* <NewMusicianForm originalInstrument={instrumentId} /> */}
+        {/* <NewMusicianForm originalInstrument={instrument} /> */}
         <SignInOutButton />
       </main>
     );

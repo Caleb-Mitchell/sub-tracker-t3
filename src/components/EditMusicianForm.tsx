@@ -1,42 +1,67 @@
-import { BackButton } from "./BackButton";
-import { CreateMusicianButton } from "./CreateMusicianButton";
+import { type Instrument } from "@prisma/client";
+import { type Musician } from "@prisma/client";
+import { BackToInstrumentButton } from "./BackToInstrumentButton";
+import { ConfirmButton } from "./ConfirmButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { type Instrument } from "@prisma/client";
 
-interface NewMusicianFormProps {
+interface EditMusicianFormProps {
   originalInstrument: Instrument;
+  originalMusician: Musician;
 }
 
-export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
+export function EditMusicianForm({
+  originalInstrument,
+  originalMusician,
+}: EditMusicianFormProps) {
+  const router = useRouter();
+
   const { data: instrumentList } = api.instrument.getAll.useQuery();
 
+  const [updatedMusicianName, setUpdatedMusicianName] = useState<string | null>(
+    null
+  );
+  const [updatedMusicianPhone, setUpdatedMusicianPhone] = useState<
+    string | null
+  >(null);
+  const [updatedMusicianEmail, setUpdatedMusicianEmail] = useState<
+    string | null
+  >(null);
   const [selectedInstrument, setSelectedInstrument] =
     useState<Instrument | null>(null);
-  const [musicianName, setMusicianName] = useState("");
-  const [musicianPhone, setMusicianPhone] = useState("");
-  const [musicianEmail, setMusicianEmail] = useState("");
 
-  const originalInstrumentIfNotSelected = () => {
-    return selectedInstrument ? selectedInstrument : originalInstrument;
-  };
-
-  // TODO: make sure this always returns an instrument
   const findInstrumentByName = (name: string) => {
     return instrumentList?.find((i) => i.name === name);
   };
 
-  const router = useRouter();
+  const originalMusicianNameIfNotUpdated = () => {
+    return updatedMusicianName ? updatedMusicianName : originalMusician.name;
+  };
+  const originalMusicianPhoneIfNotUpdated = () => {
+    return updatedMusicianPhone
+      ? updatedMusicianPhone
+      : originalMusician.phoneNumber;
+  };
+  const originalMusicianEmailIfNotUpdated = () => {
+    return updatedMusicianEmail
+      ? updatedMusicianEmail
+      : originalMusician.emailAddress;
+  };
+  const originalInstrumentIfNotSelected = () => {
+    return selectedInstrument ? selectedInstrument : originalInstrument;
+  };
 
-  const createMusician = api.musician.create.useMutation({
+  const updateMusician = api.musician.update.useMutation({
     onSuccess: () => {
       void router.push(
         {
+          // TODO: make sure toast works on successful edit
           pathname: `/instruments/${originalInstrumentIfNotSelected().id}`,
           query: {
-            musicianCreated: true,
-            message: `Musician ${musicianName} created`,
+            musicianUpdated: true,
+            message: `Musician ${updatedMusicianName ?? originalMusician.name
+              } updated`,
           },
         },
         `/instruments/${originalInstrumentIfNotSelected().id}`
@@ -54,10 +79,11 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
           className="h-56"
           onSubmit={(e) => {
             e.preventDefault();
-            createMusician.mutate({
-              name: musicianName,
-              phone: musicianPhone,
-              email: musicianEmail,
+            updateMusician.mutate({
+              id: originalMusician.id,
+              name: originalMusicianNameIfNotUpdated(),
+              phone: originalMusicianPhoneIfNotUpdated() ?? "",
+              email: originalMusicianEmailIfNotUpdated() ?? "",
               instrumentId: originalInstrumentIfNotSelected().id,
             });
           }}
@@ -66,25 +92,32 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
             <label className="text-slate-300">
               Name:
               <input
+                value={updatedMusicianName ?? originalMusician.name}
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
                 type="text"
-                onChange={(e) => setMusicianName(e.target.value)}
+                onChange={(e) => setUpdatedMusicianName(e.target.value)}
               />
             </label>
             <label className="text-slate-300">
               Phone:
               <input
+                value={
+                  updatedMusicianPhone ?? originalMusician.phoneNumber ?? ""
+                }
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
                 type="text"
-                onChange={(e) => setMusicianPhone(e.target.value)}
+                onChange={(e) => setUpdatedMusicianPhone(e.target.value)}
               />
             </label>
             <label className="text-slate-300">
               Email:
               <input
+                value={
+                  updatedMusicianEmail ?? originalMusician.emailAddress ?? ""
+                }
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
                 type="text"
-                onChange={(e) => setMusicianEmail(e.target.value)}
+                onChange={(e) => setUpdatedMusicianEmail(e.target.value)}
               />
             </label>
             <label>
@@ -101,23 +134,22 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
                 {instrumentList?.map((instrument) => {
                   if (
                     instrument.name !== originalInstrumentIfNotSelected().name
-                  ) {
+                  )
                     return (
                       <option value={instrument.name} key={instrument.id}>
                         {instrument.name}
                       </option>
                     );
-                  }
                 })}
               </select>
             </label>
-            <CreateMusicianButton />
+            <ConfirmButton text="Update Musician" />
           </div>
         </form>
       </fieldset>
 
       <hr className="mb-2.5 mt-12 w-full max-w-xs" />
-      <BackButton />
+      <BackToInstrumentButton instrument={originalInstrument} />
     </>
   );
 }
