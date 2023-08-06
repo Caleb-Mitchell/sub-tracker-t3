@@ -18,6 +18,10 @@ export function EditInstrumentForm({
     null
   );
 
+  function originalInstrumentIfNotUpdated() {
+    return updatedInstrument ? updatedInstrument : originalInstrument;
+  }
+
   const updateInstrument = api.instrument.update.useMutation({
     onSuccess: () => {
       void router.push(
@@ -25,7 +29,9 @@ export function EditInstrumentForm({
           pathname: "/instruments",
           query: {
             instrumentUpdated: true,
-            message: `Instrument ${updatedInstrument?.name} updated`,
+            message: `Instrument ${
+              originalInstrumentIfNotUpdated().name
+            } updated`,
           },
         },
         "/instruments"
@@ -53,12 +59,12 @@ export function EditInstrumentForm({
             <label className="text-slate-300">
               Name:{" "}
               <input
-                value={updatedInstrument?.name ?? originalInstrument.name}
+                value={originalInstrumentIfNotUpdated().name}
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
                 type="text"
                 onChange={(e) =>
                   setUpdatedInstrument({
-                    id: originalInstrument.id ?? updatedInstrument?.id,
+                    id: originalInstrument.id,
                     name: e.target.value,
                   })
                 }
