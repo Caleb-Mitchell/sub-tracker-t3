@@ -73,6 +73,9 @@ export function InstrumentTable() {
 
   return (
     <>
+      <p className="mb-8 text-center">
+        Click an instrument name to view any saved musicians
+      </p>
       <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
         {instrumentData.map((instrument) => (
           <SingleInstrument instrument={instrument} key={instrument.id} />
