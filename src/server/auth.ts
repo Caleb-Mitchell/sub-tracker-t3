@@ -56,6 +56,21 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
+    {
+      id: "demo-oauth",
+      name: "Demo",
+      type: "oauth",
+      authorization: "http://localhost:3000/api/auth/demo-oauth",
+      clientId: "demo-oauth",
+      clientSecret: "demo-oauth-client-secret",
+      // idToken: false,
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.name,
+        };
+      },
+    },
     /**
      * ...add more providers here.
      *

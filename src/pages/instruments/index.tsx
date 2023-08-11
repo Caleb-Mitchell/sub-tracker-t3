@@ -5,6 +5,7 @@ import { PageHeader } from "~/components/PageHeader";
 import { InstrumentTable } from "~/components/InstrumentTable";
 import { SignInOutButton } from "~/components/SignInOutButton";
 import { PageSubHeader } from "~/components/PageSubHeader";
+// import { DemoSignInButton } from "~/components/DemoSignInButton";
 
 export default function InstrumentList() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function InstrumentList() {
       />
       <InstrumentTable />
       <SignInOutButton />
+      {/* <DemoSignInButton /> */}
     </main>
   );
 }
