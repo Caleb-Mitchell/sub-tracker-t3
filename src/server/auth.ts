@@ -1,5 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
+import { type User } from "@prisma/client";
 import {
   getServerSession,
   type NextAuthOptions,
@@ -7,6 +8,7 @@ import {
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 
@@ -37,15 +39,18 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+  session: {
+    strategy: "jwt",
   },
+  // callbacks: {
+  // session: ({ session, user }) => ({
+  //   ...session,
+  //   user: {
+  //     ...session.user,
+  //     id: user.id,
+  //   },
+  // }),
+  // },
   adapter: PrismaAdapter(prisma),
   providers: [
     DiscordProvider({
@@ -55,6 +60,44 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. 'Sign in with...')
+      name: "Demo Credentials",
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: "Demo", type: "text", value: "demo" },
+        password: { label: "Password", type: "password", value: "demo" },
+      },
+      authorize() {
+        // You need to provide your own logic here that takes the credentials
+        // submitted and returns either a object representing a user or value
+        // that is false/null if the credentials are invalid.
+        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+        // You can also use the `req` object to obtain additional parameters
+        // (i.e., the request IP address)
+        const user: User = {
+          id: "1",
+          name: "Demo",
+          email: "Demo",
+          emailVerified: new Date(),
+          image: "https://example.com/jsmith.png",
+        };
+        // make an object of type User
+        // const user = await prisma.user.findUnique({
+        //   where: { email: credentials.email },
+        // });
+
+        // If no error and we have user data, return it
+        if (user) {
+          return user;
+        }
+        // Return null if user data could not be retrieved
+        return null;
+      },
     }),
     /**
      * ...add more providers here.
