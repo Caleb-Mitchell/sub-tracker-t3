@@ -6,6 +6,7 @@ import { AddMusicianButton } from "./AddMusicianButton";
 import { BackButton } from "./BackButton";
 import { DeleteMusicianButton } from "./DeleteMusicianButton";
 import { EditMusicianButton } from "./EditMusicianButton";
+import { PlaceholderInstrumentList as PlaceholderList } from "./PlaceholderInstrumentList";
 
 interface SingleMusicianProps {
   instrumentId: string;
@@ -50,9 +51,13 @@ export function MusicianTable() {
 
   if (!session) {
     return (
-      <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
-        <h1 className="my-auto">Please sign in to view musicians</h1>
-      </div>
+      <>
+        <h6 className="mb-8 text-center text-sm">Please sign in</h6>
+        {/* <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl"> */}
+        {/*   <h1 className="my-auto">Please sign in to view musicians</h1> */}
+        {/* </div> */}
+        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+      </>
     );
   }
 
@@ -66,17 +71,37 @@ export function MusicianTable() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl">
-        <h1>Loading...</h1>
-      </div>
+      <>
+        <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
+          <PlaceholderList />
+        </ul>
+        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+      </>
+    );
+  }
+
+  if (musicianData && musicianData.length === 0) {
+    return (
+      <>
+        <h6 className="mb-8 text-center text-sm">No Musicians Found</h6>
+        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+        <div className="flex space-x-6">
+          <BackButton />
+          <AddMusicianButton instrumentId={instrumentId(query)} />
+        </div>
+      </>
     );
   }
 
   if (!musicianData) {
     return (
-      <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
-        <h1>Error loading musicians</h1>
-      </div>
+      <>
+        <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-start border-x md:max-w-2xl">
+          <h1>Error loading musicians</h1>
+        </div>
+
+        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+      </>
     );
   }
 

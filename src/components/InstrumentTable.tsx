@@ -37,7 +37,12 @@ export function InstrumentTable() {
   if (!session) {
     return (
       <>
-        <h1 className="my-auto">Please sign in to view instruments</h1>
+        <h6 className="mb-8 text-center text-sm">
+          Please sign in to view instruments you&apos;ve saved
+        </h6>
+        <ul className="mx-auto flex h-36 w-full flex-col items-start border-x md:max-w-2xl">
+          <PlaceholderInstrumentList />
+        </ul>
         <div className="mx-auto mb-8 flex h-10 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
         <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
       </>
@@ -47,6 +52,9 @@ export function InstrumentTable() {
   if (isLoading) {
     return (
       <>
+        <h6 className="mb-8 text-center text-sm">
+          Click an instrument name to view any saved musicians
+        </h6>
         <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
           <PlaceholderInstrumentList />
         </ul>
