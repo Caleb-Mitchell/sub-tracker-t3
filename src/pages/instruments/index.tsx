@@ -5,10 +5,12 @@ import { PageHeader } from "~/components/PageHeader";
 import { InstrumentTable } from "~/components/InstrumentTable";
 import { SignInOutButton } from "~/components/SignInOutButton";
 import { PageSubHeader } from "~/components/PageSubHeader";
-// import { DemoSignInButton } from "~/components/DemoSignInButton";
+import { DemoSignInButton } from "~/components/DemoSignInButton";
 
 export default function InstrumentList() {
   const router = useRouter();
+  // const { data: session, status, update } = useSession();
+  // console.log("session", session);
 
   useEffect(() => {
     if (router.query.instrumentCreated) {
@@ -36,7 +38,10 @@ export default function InstrumentList() {
       />
       <InstrumentTable />
       <SignInOutButton />
-      {/* <DemoSignInButton /> */}
+      <DemoSignInButton />
+      {/* <button onClick={() => void update({ name: "demo" })}> */}
+      {/*   log in demo test */}
+      {/* </button> */}
     </main>
   );
 }

@@ -1,22 +1,32 @@
 // pages/api/auth/demo-oauth.js
 import { signIn } from "next-auth/react";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
-  const user = {
+export default function auth(req: NextApiRequest, res: NextApiResponse) {
+  // return signIn("demo-oauth", {
+  //   callbackUrl: "http://localhost:3000/",
+  // });
+
+  const userData = {
+    // name: "Fake OAuth User",
+    // email: "",
+    // image: "",
     id: "fake-oauth-user-id",
-    name: "Fake OAuth User",
-    clientId: "demo-oauth",
-    clientSecret: "demo-oauth-client-secret",
+    // client_id: "demo-oauth",
+    // client_secret: "demo-oauth-client-secret",
   };
 
-  // Simulate obtaining an access token from the OAuth provider
-  const accessToken = "fake-access-token";
-
-  // Sign in the user
-  await signIn("demo-oauth", {
-    user,
-    accessToken,
-  });
-
-  res.status(200).json({ success: true });
+  res.json({ user: userData, expires: "1" });
+  // res.json({ profile: userData, expires: "1" });
 }
+
+//   // const user = {
+//   //   id: "fake-oauth-user-id",
+//   //   name: "Fake OAuth User",
+//   //   clientId: "demo-oauth",
+//   //   clientSecret: "demo-oauth-client-secret",
+//   // };
+//
+//   // res.status(200).json({ user });
+//   res.json({ user });
+// }

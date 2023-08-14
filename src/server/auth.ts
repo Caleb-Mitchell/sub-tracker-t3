@@ -9,6 +9,7 @@ import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
+import Providers from "next-auth/providers";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -60,11 +61,17 @@ export const authOptions: NextAuthOptions = {
       id: "demo-oauth",
       name: "Demo",
       type: "oauth",
-      authorization: "http://localhost:3000/api/auth/demo-oauth",
-      clientId: "demo-oauth",
-      clientSecret: "demo-oauth-client-secret",
-      // idToken: false,
-      profile(profile) {
+      // authorization: "http://localhost:3000/api/auth/demo-oauth",
+      // token: "http://localhost:3000/api/auth/demo-oauth",
+      // userinfo: "http://localhost:3000/api/auth/demo-oauth",
+
+      authorization: "http://www.lamusica.com/oauth/example/echo_api.php",
+      token: "http://www.lamusica.com/oauth/example/request_token.php",
+      userinfo: "http://localhost:3000/api/auth/demo-oauth",
+
+      clientId: "key",
+      clientSecret: "secret",
+      profile: (profile) => {
         return {
           id: profile.id,
           name: profile.name,

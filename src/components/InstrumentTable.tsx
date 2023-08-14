@@ -33,6 +33,7 @@ export function InstrumentTable() {
     pageNumber: currentPage,
   });
   const { data: session } = useSession();
+  console.log("session", session);
 
   if (!session) {
     return (
