@@ -42,10 +42,7 @@ export function InstrumentTable() {
         <h6 className="mb-8 text-center text-sm">
           Please sign in to view instruments you&apos;ve saved
         </h6>
-        <ul className="mx-auto flex h-60 w-full flex-col items-start border-x md:max-w-2xl">
-          <PlaceholderList loading={false} />
-        </ul>
-        <div className="mx-auto mb-8 flex h-10 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
+        <PlaceholderList loading={false} />
         <hr className="mx-5 mb-5 mt-6 w-full max-w-xs" />
       </>
     );
@@ -57,9 +54,7 @@ export function InstrumentTable() {
         <h6 className="mb-8 text-center text-sm">
           Click an instrument name to view any saved musicians
         </h6>
-        <ul className="mx-auto flex h-60 w-full flex-col items-start space-y-6 border-x md:max-w-2xl">
-          <PlaceholderList loading={true} />
-        </ul>
+        <PlaceholderList loading={true} />
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
