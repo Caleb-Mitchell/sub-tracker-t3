@@ -79,12 +79,14 @@ export const musicianRouter = createTRPCRouter({
     .input(
       z.object({
         instrumentId: z.string(),
+        userId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
       try {
         const musicians = await ctx.prisma.musician.findMany({
           where: {
+            userId: input.userId,
             instruments: {
               some: {
                 id: input.instrumentId,
@@ -104,12 +106,14 @@ export const musicianRouter = createTRPCRouter({
       z.object({
         pageNumber: z.number(),
         instrumentId: z.string(),
+        userId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
       try {
         const musicians = await ctx.prisma.musician.findMany({
           where: {
+            userId: input.userId,
             instruments: {
               some: {
                 id: input.instrumentId,
@@ -144,12 +148,14 @@ export const musicianRouter = createTRPCRouter({
     .input(
       z.object({
         instrumentId: z.string(),
+        userId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
       try {
         const musicians = await ctx.prisma.musician.findMany({
           where: {
+            userId: input.userId,
             instruments: {
               some: {
                 id: input.instrumentId,
@@ -190,6 +196,7 @@ export const musicianRouter = createTRPCRouter({
         phone: z.string(),
         email: z.string(),
         instrumentId: z.string(),
+        userId: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -204,6 +211,7 @@ export const musicianRouter = createTRPCRouter({
                 id: input.instrumentId,
               },
             },
+            userId: input.userId,
           },
         });
         return musician;

@@ -3,11 +3,13 @@ import { CreateInstrumentButton } from "./CreateInstrumentButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export function NewInstrumentForm() {
   const [instrumentName, setInstrumentName] = useState("");
 
   const router = useRouter();
+  const { data: session } = useSession();
 
   const createInstrument = api.instrument.create.useMutation({
     // onMutate: async () => {
@@ -41,7 +43,10 @@ export function NewInstrumentForm() {
           className="h-56"
           onSubmit={(e) => {
             e.preventDefault();
-            createInstrument.mutate({ name: instrumentName });
+            createInstrument.mutate({
+              name: instrumentName,
+              userId: session?.user?.id ? session.user.id : "",
+            });
           }}
         >
           <div className="my-auto flex flex-col gap-2">

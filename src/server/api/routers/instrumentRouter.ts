@@ -82,12 +82,9 @@ export const instrumentRouter = createTRPCRouter({
       })
     )
 
-    .query(async ({ ctx }) => {
+    .query(async ({ input, ctx }) => {
       try {
         const instruments = await ctx.prisma.instrument.findMany({
-          include: {
-            users: true,
-          },
           where: {
             userId: input.userId,
           },
@@ -103,11 +100,15 @@ export const instrumentRouter = createTRPCRouter({
     .input(
       z.object({
         pageNumber: z.number(),
+        userId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
       try {
         const instruments = await ctx.prisma.instrument.findMany({
+          where: {
+            userId: input.userId,
+          },
           orderBy: { name: "asc" },
           skip: (input.pageNumber - 1) * ITEMS_PER_PAGE,
           take: ITEMS_PER_PAGE,
@@ -132,20 +133,31 @@ export const instrumentRouter = createTRPCRouter({
       }
     }),
 
-  getLastPageNum: protectedProcedure.query(async ({ ctx }) => {
-    try {
-      const instruments = await ctx.prisma.instrument.findMany();
-      const lastPageNumber = Math.ceil(instruments.length / ITEMS_PER_PAGE);
-      return lastPageNumber;
-    } catch (e) {
-      console.error(e);
-    }
-  }),
+  getLastPageNum: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const instruments = await ctx.prisma.instrument.findMany({
+          where: {
+            userId: input.userId,
+          },
+        });
+        const lastPageNumber = Math.ceil(instruments.length / ITEMS_PER_PAGE);
+        return lastPageNumber;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
 
   create: protectedProcedure
     .input(
       z.object({
         name: z.string(),
+        userId: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -153,6 +165,7 @@ export const instrumentRouter = createTRPCRouter({
         const instrument = await ctx.prisma.instrument.create({
           data: {
             name: input.name,
+            userId: input.userId,
           },
         });
         return instrument;
@@ -202,20 +215,4 @@ export const instrumentRouter = createTRPCRouter({
         console.error(e);
       }
     }),
-
-  // hello: publicProcedure
-  //   .input(z.object({ text: z.string() }))
-  //   .query(({ input }) => {
-  //     return {
-  //       greeting: `Hello ${input.text}`,
-  //     };
-  //   }),
-
-  // getAll: publicProcedure.query(({ ctx }) => {
-  //   return ctx.prisma.example.findMany();
-  // }),
-
-  // getSecretMessage: protectedProcedure.query(() => {
-  //   return "you can now see this secret message!";
-  // }),
 });

@@ -31,10 +31,12 @@ function SingleInstrument({ instrument }: SingleInstrumentProps) {
 
 export function InstrumentTable() {
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: session } = useSession();
+
   const { data: instrumentData, isLoading } = api.instrument.getPage.useQuery({
     pageNumber: currentPage,
+    userId: session?.user?.id ? session.user.id : "",
   });
-  const { data: session } = useSession();
 
   if (!session) {
     return (
