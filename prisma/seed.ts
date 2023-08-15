@@ -149,30 +149,30 @@ async function connectMusicianToInstrument(
 }
 
 async function main() {
-  // console.log(`Seeding musicians...`);
-  // for (const m of musicians) {
-  //   await prisma.musician.create({ data: m });
-  //   console.log(`Created musician ${m.name}`);
-  // }
-  // console.log(`Seeding instruments`);
-  // for (const i of instruments) {
-  //   await prisma.instrument.create({ data: i });
-  //   console.log(`Created instrument ${i.name}`);
-  // }
-  // console.log(`Connecting musicians with their instruments...`);
-  // for (let i = 0; i < musicians.length; i++) {
-  //   try {
-  //     console.log(
-  //       `Connecting ${musicians[i]?.name} with ${instruments[i]?.name}`
-  //     );
-  //     await connectMusicianToInstrument(
-  //       musicians[i]?.phoneNumber ?? "",
-  //       instruments[i]?.name ?? ""
-  //     );
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
+  console.log(`Seeding musicians...`);
+  for (const m of musicians) {
+    await prisma.musician.create({ data: m });
+    console.log(`Created musician ${m.name}`);
+  }
+  console.log(`Seeding instruments`);
+  for (const i of instruments) {
+    await prisma.instrument.create({ data: i });
+    console.log(`Created instrument ${i.name}`);
+  }
+  console.log(`Connecting musicians with their instruments...`);
+  for (let i = 0; i < musicians.length; i++) {
+    try {
+      console.log(
+        `Connecting ${musicians[i]?.name} with ${instruments[i]?.name}`
+      );
+      await connectMusicianToInstrument(
+        musicians[i]?.phoneNumber ?? "",
+        instruments[i]?.name ?? ""
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 
 main()
