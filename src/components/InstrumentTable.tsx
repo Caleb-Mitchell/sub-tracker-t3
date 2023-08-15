@@ -5,7 +5,7 @@ import { AddInstrumentButton } from "./AddInstrumentButton";
 import { EditInstrumentButton } from "./EditInstrumentButton";
 import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
 import { Pagination } from "./Pagination";
-import { PlaceholderInstrumentList } from "./PlaceholderInstrumentList";
+import { PlaceholderList } from "./PlaceholderList";
 import { type Instrument } from "@prisma/client";
 import Link from "next/link";
 
@@ -41,7 +41,7 @@ export function InstrumentTable() {
           Please sign in to view instruments you&apos;ve saved
         </h6>
         <ul className="mx-auto flex h-36 w-full flex-col items-start border-x md:max-w-2xl">
-          <PlaceholderInstrumentList />
+          <PlaceholderList loading={false} />
         </ul>
         <div className="mx-auto mb-8 flex h-10 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
         <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
@@ -56,7 +56,7 @@ export function InstrumentTable() {
           Click an instrument name to view any saved musicians
         </h6>
         <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
-          <PlaceholderInstrumentList />
+          <PlaceholderList loading={true} />
         </ul>
         <Pagination
           currentPage={currentPage}

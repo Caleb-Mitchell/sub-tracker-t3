@@ -6,7 +6,7 @@ import { AddMusicianButton } from "./AddMusicianButton";
 import { BackButton } from "./BackButton";
 import { DeleteMusicianButton } from "./DeleteMusicianButton";
 import { EditMusicianButton } from "./EditMusicianButton";
-import { PlaceholderInstrumentList as PlaceholderList } from "./PlaceholderInstrumentList";
+import { PlaceholderList } from "./PlaceholderList";
 
 interface SingleMusicianProps {
   instrumentId: string;
@@ -53,9 +53,6 @@ export function MusicianTable() {
     return (
       <>
         <h6 className="mb-8 text-center text-sm">Please sign in</h6>
-        {/* <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl"> */}
-        {/*   <h1 className="my-auto">Please sign in to view musicians</h1> */}
-        {/* </div> */}
         <hr className="mb-2.5 mt-12 w-full max-w-xs" />
       </>
     );
