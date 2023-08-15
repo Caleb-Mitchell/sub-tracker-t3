@@ -75,16 +75,29 @@ export const instrumentRouter = createTRPCRouter({
       }
     }),
 
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    try {
-      const instruments = await ctx.prisma.instrument.findMany({
-        orderBy: { name: "asc" },
-      });
-      return instruments;
-    } catch (e) {
-      console.error(e);
-    }
-  }),
+  getAll: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+
+    .query(async ({ ctx }) => {
+      try {
+        const instruments = await ctx.prisma.instrument.findMany({
+          include: {
+            users: true,
+          },
+          where: {
+            userId: input.userId,
+          },
+          orderBy: { name: "asc" },
+        });
+        return instruments;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
 
   getPage: protectedProcedure
     .input(
