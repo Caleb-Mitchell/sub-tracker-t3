@@ -34,7 +34,7 @@ export default function InstrumentList() {
         instrument=""
       />
       <InstrumentTable />
-      <SignInOutButton />
+      <SignInOutButton demo={false} />
     </main>
   );
 }

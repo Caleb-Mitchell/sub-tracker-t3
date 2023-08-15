@@ -15,7 +15,7 @@ interface SingleMusicianProps {
 
 function SingleMusician({ instrumentId, musician }: SingleMusicianProps) {
   return (
-    <li className="ml-8 flex w-full flex-row gap-4 text-lg">
+    <li className="ml-6 flex w-full flex-row gap-4">
       <div className="flex flex-col">
         <p>{musician.name}</p>
         <p>{musician.phoneNumber}</p>

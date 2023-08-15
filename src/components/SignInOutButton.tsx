@@ -4,10 +4,9 @@ import { BackButton } from "./BackButton";
 
 interface SignInOutButtonProps {
   demo?: boolean;
-  message?: string;
 }
 
-export function SignInOutButton({ demo, message }: SignInOutButtonProps) {
+export function SignInOutButton({ demo }: SignInOutButtonProps) {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -17,7 +16,8 @@ export function SignInOutButton({ demo, message }: SignInOutButtonProps) {
   if (session) {
     return (
       <>
-        <p>Signed in as {session.user.email}</p>
+        <hr className="my-5 w-full max-w-xs border-slate-200" />
+        <p className="italic">Signed in as {session.user.email}</p>
         <button
           className="my-2 rounded-md bg-slate-500 px-2 py-1"
           onClick={() => void signOut()}
@@ -28,13 +28,15 @@ export function SignInOutButton({ demo, message }: SignInOutButtonProps) {
     );
   }
 
-  if (demo === true) {
+  if (demo === true && !session) {
     return (
       <>
         <hr className="my-5 w-full max-w-xs border-slate-700" />
         <button
           className="my-2 rounded-md bg-slate-500 px-2 py-1"
-          onClick={() => void signOut()}
+          onClick={() =>
+            void signIn(undefined, { callbackUrl: "/instruments" })
+          }
         >
           Sign In
         </button>
@@ -46,11 +48,7 @@ export function SignInOutButton({ demo, message }: SignInOutButtonProps) {
   }
   return (
     <>
-      Not signed in <br />
-      {/* <div className="flex space-x-6"> */}
-      {/*   <BackButton /> */}
-      {/*   <AddMusicianButton instrumentId={instrumentId(query)} /> */}
-      {/* </div> */}
+      <h6 className="mb-1 mt-8 italic">Not signed in</h6>
       <div className="flex space-x-6">
         <button
           className="my-2 rounded-md bg-slate-500 px-2 py-1"

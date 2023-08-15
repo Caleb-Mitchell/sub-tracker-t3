@@ -17,7 +17,9 @@ function SingleInstrument({ instrument }: SingleInstrumentProps) {
   return (
     <li className="mb-2 flex w-full px-3 text-lg">
       <div className="w-full">
-        <Link href={`/instruments/${instrument.id}`}>{instrument.name}</Link>
+        <Link className="font-semibold" href={`/instruments/${instrument.id}`}>
+          {instrument.name}
+        </Link>
       </div>
       <div className="flex w-full flex-row justify-end self-center">
         <EditInstrumentButton instrumentId={instrument.id} />
@@ -44,7 +46,7 @@ export function InstrumentTable() {
           <PlaceholderList loading={false} />
         </ul>
         <div className="mx-auto mb-8 flex h-10 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
-        <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
+        <hr className="mx-5 mb-5 mt-6 w-full max-w-xs" />
       </>
     );
   }
@@ -63,7 +65,7 @@ export function InstrumentTable() {
           setCurrentPage={setCurrentPage}
           paginationItem={"instrument"}
         />
-        <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
+        <hr className="mx-5 mb-5 mt-6 w-full max-w-xs" />
         <AddInstrumentButton />
       </>
     );
@@ -74,7 +76,7 @@ export function InstrumentTable() {
       <>
         <h1>Error loading instruments</h1>
         <div className="mx-auto mb-16 flex h-36 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
-        <hr className="mx-5 mb-2.5 mt-12 w-full max-w-xs" />
+        <hr className="mx-5 mb-5 mt-12 w-full max-w-xs" />
       </>
     );
   }
@@ -94,7 +96,7 @@ export function InstrumentTable() {
         setCurrentPage={setCurrentPage}
         paginationItem={"instrument"}
       />
-      <hr className="mx-5 mb-2.5 mt-6 w-full max-w-xs" />
+      <hr className="mx-5 mb-5 mt-6 w-full max-w-xs" />
       <AddInstrumentButton />
     </>
   );
