@@ -15,13 +15,13 @@ interface SingleInstrumentProps {
 
 function SingleInstrument({ instrument }: SingleInstrumentProps) {
   return (
-    <li className="mb-2 flex w-full px-3 text-base">
+    <li className="flex w-full px-3 text-base">
       <div className="w-full">
         <Link className="font-semibold" href={`/instruments/${instrument.id}`}>
           {instrument.name}
         </Link>
       </div>
-      <div className="flex w-full flex-row justify-end self-center">
+      <div className="flex w-full flex-row justify-end self-center text-lg">
         <EditInstrumentButton instrumentId={instrument.id} />
         <DeleteInstrumentButton instrumentId={instrument.id} />
       </div>
@@ -42,7 +42,7 @@ export function InstrumentTable() {
         <h6 className="mb-8 text-center text-sm">
           Please sign in to view instruments you&apos;ve saved
         </h6>
-        <ul className="mx-auto flex h-36 w-full flex-col items-start border-x md:max-w-2xl">
+        <ul className="mx-auto flex h-60 w-full flex-col items-start border-x md:max-w-2xl">
           <PlaceholderList loading={false} />
         </ul>
         <div className="mx-auto mb-8 flex h-10 min-h-full w-full flex-col items-center border-x md:max-w-2xl"></div>
@@ -57,7 +57,7 @@ export function InstrumentTable() {
         <h6 className="mb-8 text-center text-sm">
           Click an instrument name to view any saved musicians
         </h6>
-        <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
+        <ul className="mx-auto flex h-60 w-full flex-col items-start space-y-6 border-x md:max-w-2xl">
           <PlaceholderList loading={true} />
         </ul>
         <Pagination
@@ -86,7 +86,7 @@ export function InstrumentTable() {
       <h6 className="mb-8 text-center text-sm">
         Click an instrument name to view any saved musicians
       </h6>
-      <ul className="mx-auto flex h-56 w-full flex-col space-y-5 border-x md:max-w-2xl">
+      <ul className="mx-auto flex h-60 w-full flex-col space-y-6 border-x md:max-w-2xl">
         {instrumentData.map((instrument) => (
           <SingleInstrument instrument={instrument} key={instrument.id} />
         ))}
