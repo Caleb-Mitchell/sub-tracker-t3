@@ -5,6 +5,7 @@ import { ConfirmButton } from "./ConfirmButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 interface EditMusicianFormProps {
   originalInstrument: Instrument;
@@ -16,8 +17,11 @@ export function EditMusicianForm({
   originalMusician,
 }: EditMusicianFormProps) {
   const router = useRouter();
+  const { data: session } = useSession();
 
-  const { data: instrumentList } = api.instrument.getAll.useQuery();
+  const { data: instrumentList } = api.instrument.getAll.useQuery({
+    userId: session?.user?.id ? session.user.id : "",
+  });
 
   const [updatedMusicianName, setUpdatedMusicianName] = useState<string | null>(
     null

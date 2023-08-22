@@ -29,9 +29,8 @@ export function EditInstrumentForm({
           pathname: "/instruments",
           query: {
             instrumentUpdated: true,
-            message: `Instrument ${
-              originalInstrumentIfNotUpdated().name
-            } updated`,
+            message: `Instrument ${originalInstrumentIfNotUpdated().name
+              } updated`,
           },
         },
         "/instruments"
@@ -65,6 +64,7 @@ export function EditInstrumentForm({
                 onChange={(e) =>
                   setUpdatedInstrument({
                     id: originalInstrument.id,
+                    userId: originalInstrument.userId,
                     name: e.target.value,
                   })
                 }

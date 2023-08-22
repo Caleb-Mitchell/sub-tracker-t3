@@ -4,13 +4,17 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { type Instrument } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 interface NewMusicianFormProps {
   originalInstrument: Instrument;
 }
 
 export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
-  const { data: instrumentList } = api.instrument.getAll.useQuery();
+  const { data: session } = useSession();
+  const { data: instrumentList } = api.instrument.getAll.useQuery({
+    userId: session?.user?.id ? session.user.id : "",
+  });
 
   const [selectedInstrument, setSelectedInstrument] =
     useState<Instrument | null>(null);
@@ -56,6 +60,7 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
             e.preventDefault();
             createMusician.mutate({
               name: musicianName,
+              userId: session?.user?.id ? session.user.id : "",
               phone: musicianPhone,
               email: musicianEmail,
               instrumentId: originalInstrumentIfNotSelected().id,
