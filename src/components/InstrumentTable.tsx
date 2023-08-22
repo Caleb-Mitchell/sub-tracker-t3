@@ -78,6 +78,22 @@ export function InstrumentTable() {
     );
   }
 
+  if (instrumentData && instrumentData.length === 0) {
+    return (
+      <>
+        <h6 className="mb-8 text-center text-sm">No Instruments Found</h6>
+        <ul className="mx-auto flex h-60 w-full flex-col space-y-6 border-x md:max-w-xl"></ul>
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          paginationItem={"instrument"}
+        />
+        <hr className="mx-5 mb-5 mt-6 w-full max-w-xs" />
+        <AddInstrumentButton />
+      </>
+    );
+  }
+
   return (
     <>
       <h6 className="mb-8 text-center text-sm">

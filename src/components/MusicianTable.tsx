@@ -34,6 +34,7 @@ function SingleMusician({ instrumentId, musician }: SingleMusicianProps) {
 
 export function MusicianTable() {
   const query = useRouter().query.instrumentId;
+  const { data: session } = useSession();
   const instrumentId = (query: string[] | string | undefined) => {
     if (!query) {
       console.warn(`Expected url search params`);
@@ -46,8 +47,8 @@ export function MusicianTable() {
 
   const { data: musicianData, isLoading } = api.musician.getAll.useQuery({
     instrumentId: instrumentId(query),
+    userId: session?.user?.id ? session.user.id : "",
   });
-  const { data: session } = useSession();
 
   if (!session) {
     return (
@@ -69,10 +70,11 @@ export function MusicianTable() {
   if (isLoading) {
     return (
       <>
-        <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl">
-          <PlaceholderList />
-        </ul>
-        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+        {/* <PlaceholderList loading={true} /> */}
+        {/* <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl"> */}
+        {/*   <PlaceholderList /> */}
+        {/* </ul> */}
+        {/* <hr className="mb-2.5 mt-12 w-full max-w-xs" /> */}
       </>
     );
   }
@@ -104,7 +106,8 @@ export function MusicianTable() {
 
   return (
     <>
-      <ul className="mx-auto flex max-h-96 min-h-min w-full flex-col items-start overflow-x-hidden border-x md:max-w-2xl">
+      <ul className="mx-auto flex max-h-96 min-h-min w-full flex-col items-start space-y-6 overflow-x-hidden border-x md:max-w-xl">
+        {/* <ul className="mx-auto flex h-60 w-full flex-col space-y-6 border-x md:max-w-xl"> */}
         {musicianData.map((musician, idx) => (
           <>
             <SingleMusician
