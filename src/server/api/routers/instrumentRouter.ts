@@ -86,14 +86,7 @@ export const instrumentRouter = createTRPCRouter({
       try {
         const instruments = await ctx.prisma.instrument.findMany({
           where: {
-            OR: [
-              {
-                userId: input.userId,
-              },
-              {
-                id: "*",
-              },
-            ],
+            userId: input.userId,
           },
           orderBy: { name: "asc" },
         });
@@ -114,15 +107,7 @@ export const instrumentRouter = createTRPCRouter({
       try {
         const instruments = await ctx.prisma.instrument.findMany({
           where: {
-            OR: [
-              {
-                userId: input.userId,
-              },
-
-              {
-                id: "*",
-              },
-            ],
+            userId: input.userId,
           },
           orderBy: { name: "asc" },
           skip: (input.pageNumber - 1) * ITEMS_PER_PAGE,
@@ -158,14 +143,7 @@ export const instrumentRouter = createTRPCRouter({
       try {
         const instruments = await ctx.prisma.instrument.findMany({
           where: {
-            OR: [
-              {
-                userId: input.userId,
-              },
-              {
-                id: "*",
-              },
-            ],
+            userId: input.userId,
           },
         });
         const lastPageNumber = Math.ceil(instruments.length / ITEMS_PER_PAGE);

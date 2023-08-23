@@ -2,13 +2,6 @@ import { type Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const musicians: Prisma.MusicianCreateInput[] = [
-  {
-    id: "*",
-    name: "caleb mitchell",
-    phoneNumber: "316-833-8935",
-    emailAddress: "calebj.mitchell@gmail.com",
-  },
-
   // { name: "caleb", phoneNumber: "5555555555", emailAddress: "caleb@gmail.com" },
   // { name: "stef", phoneNumber: "5555555556", emailAddress: "stef@gmail.com" },
   // { name: "steve", phoneNumber: "5555555557", emailAddress: "steve@gmail.com" },
@@ -104,7 +97,6 @@ const musicians: Prisma.MusicianCreateInput[] = [
 ];
 
 const instruments: Prisma.InstrumentCreateInput[] = [
-  { id: "*", name: "trumpet" },
   // { name: "banjo" },
   // { name: "guitar" },
   // { name: "violin" },
@@ -157,30 +149,30 @@ async function connectMusicianToInstrument(
 }
 
 async function main() {
-  console.log(`Seeding musicians...`);
-  for (const m of musicians) {
-    await prisma.musician.create({ data: m });
-    console.log(`Created musician ${m.name}`);
-  }
-  console.log(`Seeding instruments`);
-  for (const i of instruments) {
-    await prisma.instrument.create({ data: i });
-    console.log(`Created instrument ${i.name}`);
-  }
-  console.log(`Connecting musicians with their instruments...`);
-  for (let i = 0; i < musicians.length; i++) {
-    try {
-      console.log(
-        `Connecting ${musicians[i]?.name} with ${instruments[i]?.name}`
-      );
-      await connectMusicianToInstrument(
-        musicians[i]?.phoneNumber ?? "",
-        instruments[i]?.name ?? ""
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  // console.log(`Seeding musicians...`);
+  // for (const m of musicians) {
+  //   await prisma.musician.create({ data: m });
+  //   console.log(`Created musician ${m.name}`);
+  // }
+  // console.log(`Seeding instruments`);
+  // for (const i of instruments) {
+  //   await prisma.instrument.create({ data: i });
+  //   console.log(`Created instrument ${i.name}`);
+  // }
+  // console.log(`Connecting musicians with their instruments...`);
+  // for (let i = 0; i < musicians.length; i++) {
+  //   try {
+  //     console.log(
+  //       `Connecting ${musicians[i]?.name} with ${instruments[i]?.name}`
+  //     );
+  //     await connectMusicianToInstrument(
+  //       musicians[i]?.phoneNumber ?? "",
+  //       instruments[i]?.name ?? ""
+  //     );
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 }
 
 main()

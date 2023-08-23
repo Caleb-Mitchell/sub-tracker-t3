@@ -86,24 +86,12 @@ export const musicianRouter = createTRPCRouter({
       try {
         const musicians = await ctx.prisma.musician.findMany({
           where: {
-            OR: [
-              {
-                userId: input.userId,
-                instruments: {
-                  some: {
-                    id: input.instrumentId,
-                  },
-                },
+            userId: input.userId,
+            instruments: {
+              some: {
+                id: input.instrumentId,
               },
-              {
-                id: "*",
-                instruments: {
-                  some: {
-                    id: input.instrumentId,
-                  },
-                },
-              },
-            ],
+            },
           },
 
           orderBy: { name: "asc" },
@@ -126,24 +114,12 @@ export const musicianRouter = createTRPCRouter({
       try {
         const musicians = await ctx.prisma.musician.findMany({
           where: {
-            OR: [
-              {
-                userId: input.userId,
-                instruments: {
-                  some: {
-                    id: input.instrumentId,
-                  },
-                },
+            userId: input.userId,
+            instruments: {
+              some: {
+                id: input.instrumentId,
               },
-              {
-                id: "*",
-                instruments: {
-                  some: {
-                    id: input.instrumentId,
-                  },
-                },
-              },
-            ],
+            },
           },
           orderBy: { name: "asc" },
           skip: (input.pageNumber - 1) * ITEMS_PER_PAGE,
@@ -180,24 +156,12 @@ export const musicianRouter = createTRPCRouter({
       try {
         const musicians = await ctx.prisma.musician.findMany({
           where: {
-            OR: [
-              {
-                userId: input.userId,
-                instruments: {
-                  some: {
-                    id: input.instrumentId,
-                  },
-                },
+            userId: input.userId,
+            instruments: {
+              some: {
+                id: input.instrumentId,
               },
-              {
-                id: "*",
-                instruments: {
-                  some: {
-                    id: input.instrumentId,
-                  },
-                },
-              },
-            ],
+            },
           },
         });
         const lastPageNumber = Math.ceil(musicians.length / ITEMS_PER_PAGE);
