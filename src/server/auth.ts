@@ -38,14 +38,50 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: async ({ session, user }) => {
+      const updatedSession = {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+
+      try {
+        const calebMusician = await prisma.musician.findUnique({
+          where: { emailAddress: "calebj.mitchell@gmail.com" },
+        });
+
+        if (!calebMusician) {
+          await prisma.instrument.create({
+            data: {
+              id: "1",
+              name: "trumpet",
+              userId: user.id,
+            },
+          });
+
+          await prisma.musician.create({
+            data: {
+              name: "caleb mitchell",
+              phoneNumber: "316-833-8935",
+              emailAddress: "calebj.mitchell@gmail.com",
+              instruments: {
+                connect: {
+                  id: "1",
+                },
+              },
+              userId: user.id,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error in session callback:", error);
+      }
+      return updatedSession;
+    },
   },
+
   adapter: PrismaAdapter(prisma),
   providers: [
     DiscordProvider({
