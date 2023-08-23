@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
       };
 
       try {
-        const calebMusician = await prisma.musician.findUnique({
+        const calebMusician = await prisma.musician.findFirst({
           where: { emailAddress: "calebj.mitchell@gmail.com" },
         });
 

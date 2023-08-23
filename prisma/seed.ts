@@ -131,22 +131,22 @@ const instruments: Prisma.InstrumentCreateInput[] = [
   // { name: "musical saw" },
 ];
 
-async function connectMusicianToInstrument(
-  musicianPhoneNumber: string,
-  instrumentName: string
-) {
-  await prisma.musician.update({
-    where: { phoneNumber: musicianPhoneNumber },
-    data: {
-      instruments: {
-        connect: {
-          name: instrumentName,
-        },
-      },
-    },
-  });
-  return null;
-}
+// async function connectMusicianToInstrument(
+//   musicianPhoneNumber: string,
+//   instrumentName: string
+// ) {
+//   await prisma.musician.update({
+//     where: { phoneNumber: musicianPhoneNumber },
+//     data: {
+//       instruments: {
+//         connect: {
+//           name: instrumentName,
+//         },
+//       },
+//     },
+//   });
+//   return null;
+// }
 
 async function main() {
   // console.log(`Seeding musicians...`);

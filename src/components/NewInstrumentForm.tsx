@@ -53,6 +53,7 @@ export function NewInstrumentForm() {
             <label className="text-slate-300">
               Name:{" "}
               <input
+                required
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
                 type="text"
                 onChange={(e) => setInstrumentName(e.target.value)}
