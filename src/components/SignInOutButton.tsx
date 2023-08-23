@@ -20,7 +20,7 @@ export function SignInOutButton({ demo }: SignInOutButtonProps) {
         <p className="italic">Signed in as {session.user.email}</p>
         <button
           className="my-2 rounded-md bg-slate-500 px-2 py-1"
-          onClick={() => void signOut()}
+          onClick={() => void signOut({ callbackUrl: "/instruments" })}
         >
           Sign out
         </button>
