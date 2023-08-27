@@ -31,14 +31,53 @@ declare module "next-auth" {
   // }
 }
 
+async function addCalebMusician(userId: string) {
+  try {
+    // const calebMusician = await prisma.musician.findFirst({
+    //   where: { emailAddress: "calebj.mitchell@gmail.com" },
+    // });
+
+    // if (!calebMusician) {
+    await prisma.instrument.create({
+      data: {
+        id: "1",
+        name: "trumpet",
+        userId,
+      },
+    });
+
+    await prisma.musician.create({
+      data: {
+        name: "caleb mitchell",
+        phoneNumber: "316-833-8935",
+        emailAddress: "calebj.mitchell@gmail.com",
+        instruments: {
+          connect: {
+            id: "1",
+          },
+        },
+        userId,
+      },
+    });
+    // }
+  } catch (error) {
+    console.error("Error creating Caleb musician:", error);
+  }
+}
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  events: {
+    async linkAccount({ user }) {
+      await addCalebMusician(user.id);
+    },
+  },
   callbacks: {
-    session: async ({ session, user }) => {
+    session({ session, user }) {
       const updatedSession = {
         ...session,
         user: {
@@ -47,37 +86,6 @@ export const authOptions: NextAuthOptions = {
         },
       };
 
-      try {
-        const calebMusician = await prisma.musician.findFirst({
-          where: { emailAddress: "calebj.mitchell@gmail.com" },
-        });
-
-        if (!calebMusician) {
-          await prisma.instrument.create({
-            data: {
-              id: "1",
-              name: "trumpet",
-              userId: user.id,
-            },
-          });
-
-          await prisma.musician.create({
-            data: {
-              name: "caleb mitchell",
-              phoneNumber: "316-833-8935",
-              emailAddress: "calebj.mitchell@gmail.com",
-              instruments: {
-                connect: {
-                  id: "1",
-                },
-              },
-              userId: user.id,
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error in session callback:", error);
-      }
       return updatedSession;
     },
   },
