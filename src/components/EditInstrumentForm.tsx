@@ -4,6 +4,7 @@ import { ConfirmButton } from "./ConfirmButton";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 interface EditInstrumentFormProps {
   originalInstrument: Instrument;
@@ -24,17 +25,10 @@ export function EditInstrumentForm({
 
   const updateInstrument = api.instrument.update.useMutation({
     onSuccess: () => {
-      void router.push(
-        {
-          pathname: "/instruments",
-          query: {
-            instrumentUpdated: true,
-            message: `Instrument ${originalInstrumentIfNotUpdated().name
-              } updated`,
-          },
-        },
-        "/instruments"
+      toast.success(
+        `Instrument ${originalInstrumentIfNotUpdated().name} updated`
       );
+      void router.push("/instruments");
     },
     onError: (err) => {
       console.log(err);

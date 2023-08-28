@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 export function NewInstrumentForm() {
   const [instrumentName, setInstrumentName] = useState("");
@@ -20,16 +21,8 @@ export function NewInstrumentForm() {
     //   await ctx.instrument.getAll.invalidate();
     // },
     onSuccess: () => {
-      void router.push(
-        {
-          pathname: "/instruments",
-          query: {
-            instrumentCreated: true,
-            message: `Instrument ${instrumentName} created`,
-          },
-        },
-        "/instruments"
-      );
+      toast.success(`Instrument ${instrumentName} created`);
+      void router.push("/instruments");
     },
     onError: (err) => {
       console.log(err);

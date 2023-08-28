@@ -6,7 +6,7 @@ interface SignInOutButtonProps {
   demo?: boolean;
 }
 
-export function SignInOutButton({ demo }: SignInOutButtonProps) {
+export function SignInOutButton({ demo = false }: SignInOutButtonProps) {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
