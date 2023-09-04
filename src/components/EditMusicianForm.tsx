@@ -65,11 +65,7 @@ export function EditMusicianForm({
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success(
-        `Musician name "${
-          originalMusician.name
-        }" updated to "${originalMusicianNameIfNotUpdated()}"`
-      );
+      toast.success(`Musician "${originalMusicianNameIfNotUpdated()}" updated`);
       void router.push(
         {
           pathname: `/instruments/`,
