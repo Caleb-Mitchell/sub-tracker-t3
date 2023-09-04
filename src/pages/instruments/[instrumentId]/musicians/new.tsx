@@ -3,6 +3,7 @@ import { SignInOutButton } from "~/components/SignInOutButton";
 import { PageSubHeader } from "~/components/PageSubHeader";
 import { useRouter } from "next/router";
 import { NewMusicianForm } from "~/components/NewMusicianForm";
+import { NewMusicianFormNoInstrument } from "~/components/NewMusicianFormNoInstrument";
 import { api } from "~/utils/api";
 
 export default function CreateMusician() {
@@ -16,6 +17,7 @@ export default function CreateMusician() {
     // TODO: will the instrumentId be the only query? will it always be the first?
     return query[0] ?? "";
   };
+
   const {
     data: instrument,
     isLoading,
@@ -39,7 +41,19 @@ export default function CreateMusician() {
   }
 
   if (isError) {
-    return <p>oops!</p>;
+    return <p>oops! Error Loading instrument</p>;
+  }
+
+  // if no instrument, then create a new musician with no defauilt instrument
+  if (instrument === null) {
+    return (
+      <main className="mx-5 my-8 flex flex-col items-center">
+        <PageHeader />
+        <PageSubHeader headerText="add a new musician" instrument="" />
+        <NewMusicianFormNoInstrument />
+        <SignInOutButton />
+      </main>
+    );
   }
 
   return (

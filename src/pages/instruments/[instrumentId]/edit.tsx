@@ -28,7 +28,7 @@ export default function EditInstrument() {
       <main className="mx-5 my-8 flex flex-col items-center">
         <PageHeader />
         <PageSubHeader
-          headerText="Add a new musician who plays: "
+          headerText="add a new musician who plays: "
           instrument={"Loading instrument"}
         />
         {/* <LoadingSpinner /> */}
@@ -38,7 +38,7 @@ export default function EditInstrument() {
     );
   }
 
-  if (isError) {
+  if (isError || originalInstrument === null) {
     return <p>oops!</p>;
   }
 
@@ -46,7 +46,7 @@ export default function EditInstrument() {
     <main className="mx-5 my-8 flex flex-col items-center">
       <PageHeader />
       <PageSubHeader
-        headerText="Edit Instrument: "
+        headerText="edit Instrument: "
         instrument={originalInstrument.name}
       />
       <EditInstrumentForm originalInstrument={originalInstrument} />

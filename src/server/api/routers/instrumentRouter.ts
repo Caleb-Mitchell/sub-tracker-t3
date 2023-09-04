@@ -17,6 +17,10 @@ export const instrumentRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       try {
+        // if id is 0, return null to represent no instrument
+        if (input.id === "0") {
+          return null;
+        }
         const instrument = await ctx.prisma.instrument.findUnique({
           where: {
             id: input.id,
@@ -87,6 +91,31 @@ export const instrumentRouter = createTRPCRouter({
         const instruments = await ctx.prisma.instrument.findMany({
           where: {
             userId: input.userId,
+          },
+          orderBy: { name: "asc" },
+        });
+        return instruments;
+      } catch (e) {
+        console.error(e);
+      }
+    }),
+
+  getAllPlayedByMusician: protectedProcedure
+    .input(
+      z.object({
+        musicianId: z.string(),
+      })
+    )
+
+    .query(async ({ input, ctx }) => {
+      try {
+        const instruments = await ctx.prisma.instrument.findMany({
+          where: {
+            musicians: {
+              some: {
+                id: input.musicianId,
+              },
+            },
           },
           orderBy: { name: "asc" },
         });

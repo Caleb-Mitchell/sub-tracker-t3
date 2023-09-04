@@ -6,7 +6,6 @@ import { AddMusicianButton } from "./AddMusicianButton";
 import { BackButton } from "./BackButton";
 import { DeleteMusicianButton } from "./DeleteMusicianButton";
 import { EditMusicianButton } from "./EditMusicianButton";
-import { PlaceholderList } from "./PlaceholderList";
 
 interface SingleMusicianProps {
   instrumentId: string;
@@ -54,7 +53,7 @@ export function MusicianTable() {
     return (
       <>
         <h6 className="mb-8 text-center text-sm">Please sign in</h6>
-        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+        <hr className="mb-5 mt-12 w-full max-w-xs" />
       </>
     );
   }
@@ -74,7 +73,7 @@ export function MusicianTable() {
         {/* <ul className="mx-auto flex h-44 w-full flex-col items-start border-x md:max-w-2xl"> */}
         {/*   <PlaceholderList /> */}
         {/* </ul> */}
-        {/* <hr className="mb-2.5 mt-12 w-full max-w-xs" /> */}
+        {/* <hr className="mb-5 mt-12 w-full max-w-xs" /> */}
       </>
     );
   }
@@ -83,7 +82,7 @@ export function MusicianTable() {
     return (
       <>
         <h6 className="mb-8 text-center text-sm">No Musicians Found</h6>
-        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+        <hr className="mb-5 mt-12 w-full max-w-xs" />
         <div className="flex space-x-6">
           <BackButton />
           <AddMusicianButton instrumentId={instrumentId(query)} />
@@ -99,7 +98,7 @@ export function MusicianTable() {
           <h1>Error loading musicians</h1>
         </div>
 
-        <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+        <hr className="mb-5 mt-12 w-full max-w-xs" />
       </>
     );
   }
@@ -124,7 +123,7 @@ export function MusicianTable() {
           </>
         ))}
       </ul>
-      <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+      <hr className="mb-5 mt-12 w-full max-w-xs" />
       <div className="flex space-x-6">
         <BackButton />
         <AddMusicianButton instrumentId={instrumentId(query)} />

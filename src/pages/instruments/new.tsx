@@ -7,7 +7,7 @@ export default function NewInstrument() {
   return (
     <main className="mx-5 my-8 flex flex-col items-center">
       <PageHeader />
-      <PageSubHeader headerText="Add a new instrument" instrument="" />
+      <PageSubHeader headerText="add a new instrument" instrument="" />
       <NewInstrumentForm />
       <SignInOutButton />
     </main>

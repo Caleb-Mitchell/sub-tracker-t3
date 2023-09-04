@@ -196,7 +196,7 @@ export const musicianRouter = createTRPCRouter({
         name: z.string(),
         phone: z.string(),
         email: z.string(),
-        instrumentId: z.string(),
+        instrumentIds: z.array(z.string()),
         userId: z.string(),
       })
     )
@@ -208,9 +208,7 @@ export const musicianRouter = createTRPCRouter({
             phoneNumber: input.phone,
             emailAddress: input.email,
             instruments: {
-              connect: {
-                id: input.instrumentId,
-              },
+              connect: input.instrumentIds.map((id) => ({ id })),
             },
             userId: input.userId,
           },
@@ -228,7 +226,7 @@ export const musicianRouter = createTRPCRouter({
         name: z.string(),
         phone: z.string(),
         email: z.string(),
-        instrumentId: z.string(),
+        instrumentIds: z.array(z.string()),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -242,9 +240,7 @@ export const musicianRouter = createTRPCRouter({
             phoneNumber: input.phone,
             emailAddress: input.email,
             instruments: {
-              set: {
-                id: input.instrumentId,
-              },
+              set: input.instrumentIds.map((id) => ({ id })),
             },
           },
         });

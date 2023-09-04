@@ -9,11 +9,7 @@ import { Listbox } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-hot-toast";
 
-interface NewMusicianFormProps {
-  originalInstrument: Instrument;
-}
-
-export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
+export function NewMusicianFormNoInstrument() {
   const { data: session } = useSession();
   const router = useRouter();
   const ctx = api.useContext();
@@ -22,9 +18,9 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
     userId: session?.user?.id ? session.user.id : "",
   });
 
-  const [selectedInstruments, setSelectedInstruments] = useState([
-    originalInstrument,
-  ]);
+  const [selectedInstruments, setSelectedInstruments] = useState(
+    [] as Instrument[]
+  );
 
   const [musicianName, setMusicianName] = useState("");
   const [musicianPhone, setMusicianPhone] = useState("");

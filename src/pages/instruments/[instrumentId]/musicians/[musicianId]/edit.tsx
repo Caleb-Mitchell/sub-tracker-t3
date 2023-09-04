@@ -16,11 +16,6 @@ export default function EditMusician() {
     // TODO: will the instrumentId be the only query? will it always be the first?
     return instrumentQuery[0] ?? "";
   };
-  const {
-    data: originalInstrument,
-    isLoading: instrumentIsLoading,
-    isError: isInstrumentError,
-  } = api.instrument.getById.useQuery({ id: instrumentId(instrumentQuery) });
 
   const musicianQuery = useRouter().query.musicianId;
   const musicianId = (musicianQuery: string[] | string | undefined) => {
@@ -37,6 +32,23 @@ export default function EditMusician() {
     isLoading: musicianIsLoading,
     isError: isMuscianError,
   } = api.musician.getById.useQuery({ id: musicianId(musicianQuery) });
+
+  // for this edit form I need to load all instruments played by musician,
+  // instead of the instrument in the query string
+
+  // const {
+  //   data: originalInstrument,
+  //   isLoading: instrumentIsLoading,
+  //   isError: isInstrumentError,
+  // } = api.instrument.getById.useQuery({ id: instrumentId(instrumentQuery) });
+
+  const {
+    data: originalInstruments,
+    isLoading: instrumentIsLoading,
+    isError: isInstrumentError,
+  } = api.instrument.getAllPlayedByMusician.useQuery({
+    musicianId: originalMusician?.id ?? "",
+  });
 
   // I like having a <LoadingSpinner /> component to fall back to
   if (instrumentIsLoading || musicianIsLoading) {
@@ -61,12 +73,12 @@ export default function EditMusician() {
     <main className="mx-5 my-8 flex flex-col items-center">
       <PageHeader />
       <PageSubHeader
-        headerText="Edit Musician: "
+        headerText="edit Musician: "
         //TODO: change instrument to something more general in subheader
         instrument={originalMusician.name}
       />
       <EditMusicianForm
-        originalInstrument={originalInstrument}
+        originalInstruments={originalInstruments ?? []}
         originalMusician={originalMusician}
       />
       <SignInOutButton />

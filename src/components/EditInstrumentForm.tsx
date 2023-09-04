@@ -14,6 +14,7 @@ export function EditInstrumentForm({
   originalInstrument,
 }: EditInstrumentFormProps) {
   const router = useRouter();
+  const ctx = api.useContext();
 
   const [updatedInstrument, setUpdatedInstrument] = useState<Instrument | null>(
     null
@@ -24,13 +25,24 @@ export function EditInstrumentForm({
   }
 
   const updateInstrument = api.instrument.update.useMutation({
+    onMutate: async () => {
+      toast.loading("Updating instrument...");
+      await ctx.instrument.getById.cancel();
+    },
+    onSettled: async () => {
+      await ctx.instrument.getById.invalidate();
+    },
+
     onSuccess: () => {
+      toast.dismiss();
       toast.success(
-        `Instrument ${originalInstrumentIfNotUpdated().name} updated`
+        `Instrument name ${originalInstrument.name} updated to ${updatedInstrument?.name}`
       );
       void router.push("/instruments");
     },
     onError: (err) => {
+      toast.dismiss();
+      toast.error(`Error editing instrument: ${err.message}}`);
       console.log(err);
     },
   });
@@ -69,7 +81,7 @@ export function EditInstrumentForm({
         </form>
       </fieldset>
 
-      <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+      <hr className="mb-5 mt-12 w-full max-w-xs" />
       <BackButton />
     </>
   );

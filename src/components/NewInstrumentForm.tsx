@@ -57,7 +57,7 @@ export function NewInstrumentForm() {
         </form>
       </fieldset>
 
-      <hr className="mb-2.5 mt-12 w-full max-w-xs" />
+      <hr className="mb-5 mt-12 w-full max-w-xs" />
       <BackButton />
     </>
   );

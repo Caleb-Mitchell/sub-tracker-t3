@@ -6,18 +6,23 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { BackButton } from "./BackButton";
+import { Listbox } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { toast } from "react-hot-toast";
 
 interface EditMusicianFormProps {
-  originalInstrument: Instrument;
+  originalInstruments: Instrument[];
   originalMusician: Musician;
 }
 
 export function EditMusicianForm({
-  originalInstrument,
+  originalInstruments,
   originalMusician,
 }: EditMusicianFormProps) {
   const router = useRouter();
   const { data: session } = useSession();
+  const ctx = api.useContext();
 
   const { data: instrumentList } = api.instrument.getAll.useQuery({
     userId: session?.user?.id ? session.user.id : "",
@@ -32,12 +37,9 @@ export function EditMusicianForm({
   const [updatedMusicianEmail, setUpdatedMusicianEmail] = useState<
     string | null
   >(null);
-  const [selectedInstrument, setSelectedInstrument] =
-    useState<Instrument | null>(null);
 
-  const findInstrumentByName = (name: string) => {
-    return instrumentList?.find((i) => i.name === name);
-  };
+  const [selectedInstruments, setSelectedInstruments] =
+    useState(originalInstruments);
 
   const originalMusicianNameIfNotUpdated = () => {
     return updatedMusicianName ? updatedMusicianName : originalMusician.name;
@@ -52,26 +54,30 @@ export function EditMusicianForm({
       ? updatedMusicianEmail
       : originalMusician.emailAddress;
   };
-  const originalInstrumentIfNotSelected = () => {
-    return selectedInstrument ? selectedInstrument : originalInstrument;
-  };
 
   const updateMusician = api.musician.update.useMutation({
+    onMutate: async () => {
+      toast.loading("Updating musician...");
+      await ctx.instrument.getAllPlayedByMusician.cancel();
+    },
+    onSettled: async () => {
+      await ctx.instrument.getAllPlayedByMusician.invalidate();
+    },
     onSuccess: () => {
+      toast.dismiss();
+      toast.success(
+        `Musician name ${originalMusician.name} updated to ${updatedMusicianName}`
+      );
       void router.push(
         {
-          // TODO: make sure toast works on successful edit
-          pathname: `/instruments/${originalInstrumentIfNotSelected().id}`,
-          query: {
-            musicianUpdated: true,
-            message: `Musician ${updatedMusicianName ?? originalMusician.name
-              } updated`,
-          },
+          pathname: `/instruments/`,
         },
-        `/instruments/${originalInstrumentIfNotSelected().id}`
+        `/instruments/`
       );
     },
     onError: (err) => {
+      toast.dismiss();
+      toast.error(`Error deleting musician: ${err.message}}`);
       console.log(err);
     },
   });
@@ -88,7 +94,7 @@ export function EditMusicianForm({
               name: originalMusicianNameIfNotUpdated(),
               phone: originalMusicianPhoneIfNotUpdated() ?? "",
               email: originalMusicianEmailIfNotUpdated() ?? "",
-              instrumentId: originalInstrumentIfNotSelected().id,
+              instrumentIds: selectedInstruments.map((i) => i.id),
             });
           }}
         >
@@ -124,36 +130,89 @@ export function EditMusicianForm({
                 onChange={(e) => setUpdatedMusicianEmail(e.target.value)}
               />
             </label>
-            <label>
-              Instrument:
-              <select
-                className="mt-2 w-full rounded-md bg-slate-300 py-1 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
-                onChange={(e) =>
-                  setSelectedInstrument(
-                    findInstrumentByName(e.target.value) ?? originalInstrument
-                  )
-                }
-              >
-                <option>{originalInstrumentIfNotSelected().name}</option>
-                {instrumentList?.map((instrument) => {
-                  if (
-                    instrument.name !== originalInstrumentIfNotSelected().name
-                  )
-                    return (
-                      <option value={instrument.name} key={instrument.id}>
-                        {instrument.name}
-                      </option>
-                    );
-                })}
-              </select>
-            </label>
+            <Listbox
+              value={selectedInstruments}
+              onChange={setSelectedInstruments}
+              by="name"
+              multiple
+            >
+              <Listbox.Label className="-mb-2">Instrument:</Listbox.Label>
+              <div className="relative mt-2">
+                <Listbox.Button className="relative mb-1 w-full rounded-md bg-slate-300 pl-2 pr-10 text-left text-slate-800 shadow-md focus:outline-none focus:ring-2 focus:ring-slate-600">
+                  {selectedInstruments.length === 0
+                    ? "Select Instrument(s)"
+                    : selectedInstruments.length > 1
+                      ? `${selectedInstruments.map(
+                        (instrument) => instrument.name
+                      )[0]
+                      } + ${selectedInstruments.length - 1}`
+                      : `${selectedInstruments.map(
+                        (instrument) => instrument.name
+                      )[0]
+                      }`}
+
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-x-hidden rounded-md bg-slate-300 pl-2 pr-10 text-left text-slate-800 shadow-md focus:outline-none focus:ring-2 focus:ring-slate-600">
+                  {instrumentList?.map((instrument) => (
+                    <Listbox.Option
+                      key={instrument.id}
+                      className={({ active }) =>
+                        `relative flex w-40 select-none ${active ? "text-slate-400" : "text-slate-900"
+                        }`
+                      }
+                      value={instrument}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${selected ? "font-medium" : "font-normal"
+                              }`}
+                          >
+                            {instrument.name}
+                          </span>
+                          {selectedInstruments
+                            .map((instrument) => instrument.name)
+                            .includes(instrument.name) ? (
+                            <span className="ml-auto flex pl-3 text-amber-600">
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
             <ConfirmButton text="Update Musician" />
           </div>
+          <select
+            className="absolute top-80 opacity-0"
+            aria-hidden="true"
+            required
+            multiple
+            defaultValue={selectedInstruments.map((i) => i.id)}
+          >
+            {selectedInstruments.map((instrument) => (
+              <option key={instrument.id} value={instrument.id}>
+                {instrument.name}
+              </option>
+            ))}
+          </select>
         </form>
       </fieldset>
 
-      <hr className="mb-2.5 mt-12 w-full max-w-xs" />
-      <BackToInstrumentButton instrument={originalInstrument} />
+      <hr className="mb-5 mt-12 w-full max-w-xs" />
+      <BackButton />
     </>
   );
 }

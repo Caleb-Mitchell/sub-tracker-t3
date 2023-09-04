@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { AddInstrumentButton } from "./AddInstrumentButton";
 import { EditInstrumentButton } from "./EditInstrumentButton";
+import { AddMusicianButton } from "./AddMusicianButton";
 import { DeleteInstrumentButton } from "./DeleteInstrumentButton";
 import { Pagination } from "./Pagination";
 import { PlaceholderList } from "./PlaceholderList";
@@ -110,7 +111,10 @@ export function InstrumentTable() {
         paginationItem={"instrument"}
       />
       <hr className="mx-5 mb-5 mt-6 w-full max-w-xs" />
-      <AddInstrumentButton />
+      <div className="flex space-x-6">
+        <AddInstrumentButton />
+        <AddMusicianButton />
+      </div>
     </>
   );
 }
