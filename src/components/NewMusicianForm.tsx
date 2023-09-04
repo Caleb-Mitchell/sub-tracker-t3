@@ -175,9 +175,7 @@ export function NewMusicianForm({ originalInstrument }: NewMusicianFormProps) {
             value={selectedInstruments.map((i) => i.id)}
           >
             {selectedInstruments.map((instrument) => (
-              <option key={instrument.id} value={instrument.id}>
-                {instrument.name}
-              </option>
+              <option key={instrument.id} value={instrument.id}></option>
             ))}
           </select>
         </form>

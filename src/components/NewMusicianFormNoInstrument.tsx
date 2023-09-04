@@ -166,6 +166,7 @@ export function NewMusicianFormNoInstrument() {
           <select
             className="absolute top-80 opacity-0"
             aria-hidden="true"
+            required
             multiple
             value={selectedInstruments.map((i) => i.id)}
           >

@@ -66,7 +66,8 @@ export function EditMusicianForm({
     onSuccess: () => {
       toast.dismiss();
       toast.success(
-        `Musician name ${originalMusician.name
+        `Musician name ${
+          originalMusician.name
         } updated to ${originalMusicianNameIfNotUpdated()}`
       );
       void router.push(
@@ -143,13 +144,15 @@ export function EditMusicianForm({
                   {selectedInstruments.length === 0
                     ? "Select Instrument(s)"
                     : selectedInstruments.length > 1
-                      ? `${selectedInstruments.map(
-                        (instrument) => instrument.name
-                      )[0]
+                    ? `${
+                        selectedInstruments.map(
+                          (instrument) => instrument.name
+                        )[0]
                       } + ${selectedInstruments.length - 1}`
-                      : `${selectedInstruments.map(
-                        (instrument) => instrument.name
-                      )[0]
+                    : `${
+                        selectedInstruments.map(
+                          (instrument) => instrument.name
+                        )[0]
                       }`}
 
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -164,7 +167,8 @@ export function EditMusicianForm({
                     <Listbox.Option
                       key={instrument.id}
                       className={({ active }) =>
-                        `relative flex w-40 select-none ${active ? "text-slate-400" : "text-slate-900"
+                        `relative flex w-40 select-none ${
+                          active ? "text-slate-400" : "text-slate-900"
                         }`
                       }
                       value={instrument}
@@ -172,8 +176,9 @@ export function EditMusicianForm({
                       {({ selected }) => (
                         <>
                           <span
-                            className={`block truncate ${selected ? "font-medium" : "font-normal"
-                              }`}
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
                           >
                             {instrument.name}
                           </span>
@@ -204,9 +209,7 @@ export function EditMusicianForm({
             value={selectedInstruments.map((i) => i.id)}
           >
             {selectedInstruments.map((instrument) => (
-              <option key={instrument.id} value={instrument.id}>
-                {instrument.name}
-              </option>
+              <option key={instrument.id} value={instrument.id}></option>
             ))}
           </select>
         </form>
