@@ -66,7 +66,8 @@ export function EditMusicianForm({
     onSuccess: () => {
       toast.dismiss();
       toast.success(
-        `Musician name ${originalMusician.name} updated to ${updatedMusicianName}`
+        `Musician name ${originalMusician.name
+        } updated to ${originalMusicianNameIfNotUpdated()}`
       );
       void router.push(
         {
@@ -200,7 +201,7 @@ export function EditMusicianForm({
             aria-hidden="true"
             required
             multiple
-            defaultValue={selectedInstruments.map((i) => i.id)}
+            value={selectedInstruments.map((i) => i.id)}
           >
             {selectedInstruments.map((instrument) => (
               <option key={instrument.id} value={instrument.id}>

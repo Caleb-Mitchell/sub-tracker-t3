@@ -106,13 +106,15 @@ export function NewMusicianFormNoInstrument() {
                   {selectedInstruments.length === 0
                     ? "Select Instrument(s)"
                     : selectedInstruments.length > 1
-                      ? `${selectedInstruments.map(
-                        (instrument) => instrument.name
-                      )[0]
+                    ? `${
+                        selectedInstruments.map(
+                          (instrument) => instrument.name
+                        )[0]
                       } + ${selectedInstruments.length - 1}`
-                      : `${selectedInstruments.map(
-                        (instrument) => instrument.name
-                      )[0]
+                    : `${
+                        selectedInstruments.map(
+                          (instrument) => instrument.name
+                        )[0]
                       }`}
 
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -127,7 +129,8 @@ export function NewMusicianFormNoInstrument() {
                     <Listbox.Option
                       key={instrument.id}
                       className={({ active }) =>
-                        `relative flex w-40 select-none ${active ? "text-slate-400" : "text-slate-900"
+                        `relative flex w-40 select-none ${
+                          active ? "text-slate-400" : "text-slate-900"
                         }`
                       }
                       value={instrument}
@@ -135,8 +138,9 @@ export function NewMusicianFormNoInstrument() {
                       {({ selected }) => (
                         <>
                           <span
-                            className={`block truncate ${selected ? "font-medium" : "font-normal"
-                              }`}
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
                           >
                             {instrument.name}
                           </span>
@@ -162,14 +166,11 @@ export function NewMusicianFormNoInstrument() {
           <select
             className="absolute top-80 opacity-0"
             aria-hidden="true"
-            required
             multiple
-            defaultValue={selectedInstruments.map((i) => i.id)}
+            value={selectedInstruments.map((i) => i.id)}
           >
             {selectedInstruments.map((instrument) => (
-              <option key={instrument.id} value={instrument.id}>
-                {instrument.name}
-              </option>
+              <option key={instrument.id} value={instrument.id}></option>
             ))}
           </select>
         </form>

@@ -36,7 +36,9 @@ export function EditInstrumentForm({
     onSuccess: () => {
       toast.dismiss();
       toast.success(
-        `Instrument name ${originalInstrument.name} updated to ${updatedInstrument?.name}`
+        `Instrument name ${originalInstrument.name} updated to ${
+          originalInstrumentIfNotUpdated().name
+        }`
       );
       void router.push("/instruments");
     },
