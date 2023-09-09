@@ -44,7 +44,7 @@ export function NewInstrumentForm() {
         >
           <div className="my-auto flex flex-col gap-2">
             <label className="text-slate-300">
-              Name:{" "}
+              Instrument Name:{" "}
               <input
                 required
                 className="mt-2 rounded-md bg-slate-300 pl-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600"
