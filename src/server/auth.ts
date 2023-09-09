@@ -40,7 +40,6 @@ async function addCalebMusician(userId: string) {
     // if (!calebMusician) {
     await prisma.instrument.create({
       data: {
-        id: "1",
         name: "trumpet",
         userId,
       },
@@ -53,7 +52,8 @@ async function addCalebMusician(userId: string) {
         emailAddress: "calebj.mitchell@gmail.com",
         instruments: {
           connect: {
-            id: "1",
+            name: "trumpet",
+            userId,
           },
         },
         userId,
