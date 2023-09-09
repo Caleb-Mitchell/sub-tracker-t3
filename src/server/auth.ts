@@ -72,7 +72,7 @@ async function addCalebMusician(userId: string) {
  */
 export const authOptions: NextAuthOptions = {
   events: {
-    async linkAccount({ user }) {
+    async createUser({ user }) {
       await addCalebMusician(user.id);
     },
   },
