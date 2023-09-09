@@ -6,7 +6,7 @@ Feel free to visit the site at
 Built using the [T3 Stack](https://create.t3.gg/)
 (Next.js/NextAuth.js/Prisma/Tailwind CSS/tRPC), hosted by
 [Vercel](https://vercel.com), and PostgreSQL database provisioned by
-[RailWay](https://railway.app/).
+[Railway](https://railway.app/).
 
 ## Description
 
