@@ -1,28 +1,20 @@
-# Create T3 App
+# Sub Tracker
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Feel free to visit the site at
+[https://sub-tracker-t3.vercel.app](https://sub-tracker-t3.vercel.app).
 
-## What's next? How do I make an app with this?
+Built using the [T3 Stack](https://create.t3.gg/)
+(Next.js/NextAuth.js/Prisma/Tailwind CSS/tRPC), hosted by
+[Vercel](https://vercel.com), and PostgreSQL database provisioned by
+[RailWay](https://railway.app/).
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Description
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+A web application used to track substitute musicians (not sandwiches) that play
+various instruments, to be used as substitutes for performances when necessary.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+For example, if a band normally has a trombone player and that individual is
+sick and can't make it to a performance, we could select trombone from the list
+of instruments to view a list of musicians that play trombone (with their
+contact information). For every instrument we care to track substitute musicians
+for, we have a list of musicians and their contact information.
