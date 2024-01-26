@@ -18,7 +18,7 @@ model Instrument {
   id        String     @id @default(cuid())
   name      String     @unique
   musicians Musician[]
-  User      User?      @relation(fields: [userId], references: [id])
+  User      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?
 }
 
@@ -28,7 +28,7 @@ model Musician {
   phoneNumber  String?
   emailAddress String?
   instruments  Instrument[]
-  User         User?        @relation(fields: [userId], references: [id])
+  User         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String?
 }
 
